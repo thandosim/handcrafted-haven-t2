@@ -14,7 +14,7 @@ Responsive Design: Optimized for all devices with accessibility and SEO best pra
 Technologies Used
 Front-End: HTML, CSS, JavaScript, Next.js
 
-Back-End: Node.js, Database
+Back-End: Node.js, Express.js, MongoDB
 
 Project Management: GitHub Projects & Boards
 
@@ -60,6 +60,6 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 ## Team members
 
 1. Thandokuhle Simelane
-2. 
+2. Adetokunbo Olutola Osibo
 3. 
 4. 

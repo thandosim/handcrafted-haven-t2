@@ -1,4 +1,25 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Handcrafted Haven – Project Summary
+Handcrafted Haven is a full-stack web application designed to empower artisans and crafters by providing a digital marketplace to showcase and sell their unique handmade products. Built with modern web technologies including Next.js, Node.js, and deployed via Vercel, the platform emphasizes community, sustainability, and creativity.
+
+Key Features
+Seller Profiles: Authenticated users can create personalized profiles to share their stories and display their products.
+
+Product Listings: Artisans can upload items with descriptions, pricing, and images, while customers can browse and filter listings.
+
+Reviews & Ratings: Users can leave feedback to help others discover quality craftsmanship.
+
+Responsive Design: Optimized for all devices with accessibility and SEO best practices in mind.
+
+Technologies Used
+Front-End: HTML, CSS, JavaScript, Next.js
+
+Back-End: Node.js, Database
+
+Project Management: GitHub Projects & Boards
+
+Deployment: Vercel
+
 
 ## Getting Started
 
@@ -34,3 +55,8 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+## Team members
+
+1. Thandokuhle Simelane

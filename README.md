@@ -61,5 +61,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 1. Thandokuhle Simelane
 2. Adetokunbo Olutola Osibo
-3. Eric Arthur
-4. 
+3. Oghenefuyere Okiotorhoro
+4. Eric Arthur

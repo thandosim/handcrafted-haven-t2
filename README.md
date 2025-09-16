@@ -63,3 +63,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 2. Adetokunbo Olutola Osibo
 3. Oghenefuyere Okiotorhoro
 4. Eric Arthur
+5. Kouame Alexandre Paul

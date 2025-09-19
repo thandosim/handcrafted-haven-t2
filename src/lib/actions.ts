@@ -24,6 +24,7 @@ export async function signupUser(formData: FormData) {
 
   // TODO: Save to DB
   console.log("Creating user:", { name, email, password });
+    return { success: true };
 }
 
 // 🛍️ Create Product Action

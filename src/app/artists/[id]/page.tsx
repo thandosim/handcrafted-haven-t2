@@ -1,7 +1,10 @@
 import { artists, products } from "@/data/mockData";
 import ProductCard from "@/components/ProductCard";
+import Header from "@/components/layout/Header";
+import Hero from "@/components/layout/Hero";
+import Footer from "@/components/layout/Footer";
 
-export default function ArtistProfile({ params }: { params: { id: string } }) {
+export default function ArtistProfile({ params }: { params: { id: string } }) { //in future use async/await for the database
   const artistId = parseInt(params.id);
   const artist = artists.find((a) => a.id === artistId);
   const artistProducts = products.filter((p) => p.artistId === artistId);
@@ -11,7 +14,10 @@ export default function ArtistProfile({ params }: { params: { id: string } }) {
   }
 
   return (
+    
     <div className="min-h-screen bg-white dark:bg-[#111] text-gray-900 dark:text-gray-100 font-sans px-6 py-12">
+        <Header />
+        <Hero />
       {/* Artist Header */}
       <div className="flex flex-col items-center text-center mb-12">
         <div className="h-32 w-32 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden mb-4">
@@ -50,6 +56,7 @@ export default function ArtistProfile({ params }: { params: { id: string } }) {
           ))}
         </div>
       </section>
+        <Footer />
     </div>
   );
 }

@@ -5,6 +5,9 @@ import Link from "next/link";
 import ProductCard from "@/components/ProductCard";
 import ArtistCard from "@/components/ArtistCard";
 import { products, artists } from "@/data/mockData";
+import Header from "@/components/layout/Header";
+import Hero from "@/components/layout/Hero";
+import Footer from "@/components/layout/Footer";
 
 
 export default function HomePage() {
@@ -13,24 +16,10 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-white dark:bg-[#111] text-gray-900 dark:text-gray-100 font-sans">
       {/* Header */}
-      <header className="w-full border-b border-gray-200 dark:border-gray-800 px-6 py-4 flex justify-between items-center">
-        <h1 className="text-xl font-bold">Handcrafted Haven</h1>
-        <nav className="flex gap-6 text-sm font-medium">
-          <a href="#">Home</a>
-          <a href="#">Shop</a>
-          <a href="#">Artists</a>
-          <a href="#">About</a>
-          <a href="#">Contact</a>
-          <a href="#">Account</a>
-          <button aria-label="Search">🔍</button>
-        </nav>
-      </header>
+      <Header />
 
       {/* Hero Section */}
-      <section className="text-center py-16 bg-gray-100 dark:bg-gray-900">
-        <h2 className="text-4xl font-bold mb-4">Discover Handmade Excellence</h2>
-        <p className="text-lg text-gray-600 dark:text-gray-400">Crafted with care, curated for you.</p>
-      </section>
+      <Hero />
 
       {/* Toggle Button */}
       <div className="flex justify-center py-6">
@@ -66,9 +55,7 @@ export default function HomePage() {
       )}
 
       {/* Footer */}
-      <footer className="w-full py-6 text-center text-sm text-gray-500 dark:text-gray-400 border-t border-gray-200 dark:border-gray-800">
-        &copy; 2025 Handcrafted Haven. All rights reserved.
-      </footer>
+      <Footer />
     </div>
   );
 }

@@ -37,7 +37,9 @@ export default function HomePage() {
           <h3 className="text-2xl font-semibold mb-6">Featured Products</h3>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
             {products.map((p) => (
-              <ProductCard key={p.id} title={p.title} imageUrl={p.image} price={p.price} />
+              <Link key={p.id} href={`/products/${p.id}`} className="block hover:scale-[1.02] transition-transform">
+                <ProductCard title={p.title} imageUrl={p.image} price={p.price} />
+              </Link>
             ))}
           </div>
         </section>

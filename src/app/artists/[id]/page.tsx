@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { artists, products } from "@/data/mockData";
 import ProductCard from "@/components/ProductCard";
 import Header from "@/components/layout/Header";
@@ -52,7 +53,9 @@ export default function ArtistProfile({ params }: { params: { id: string } }) { 
         <h2 className="text-2xl font-semibold mb-6">Products by {artist.name}</h2>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
           {artistProducts.map((p) => (
-            <ProductCard key={p.id} title={p.title} imageUrl={p.image} price={p.price} />
+            <Link key={p.id} href={`/products/${p.id}`} className="block hover:scale-[1.02] transition-transform">
+                <ProductCard title={p.title} imageUrl={p.image} price={p.price} />
+            </Link>
           ))}
         </div>
       </section>

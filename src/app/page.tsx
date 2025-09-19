@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import ProductCard from "@/components/ProductCard";
 import ArtistCard from "@/components/ArtistCard";
 import { products, artists } from "@/data/mockData";
@@ -56,7 +57,9 @@ export default function HomePage() {
           <h3 className="text-2xl font-semibold mb-6">Featured Artists</h3>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
             {artists.map((a) => (
-              <ArtistCard key={a.id} name={a.name} avatarUrl={a.avatar} bio={a.bio} />
+              <Link key={a.id} href={`/artists/${a.id}`} className="block hover:scale-[1.02] transition-transform">
+                <ArtistCard name={a.name} avatarUrl={a.avatar} bio={a.bio} />
+              </Link>
             ))}
           </div>
         </section>

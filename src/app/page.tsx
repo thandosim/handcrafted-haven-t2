@@ -1,6 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import ProductCard from "@/components/ProductCard";
+import ArtistCard from "@/components/ArtistCard";
+import { products, artists } from "@/data/mockData";
+
 
 export default function HomePage() {
   const [view, setView] = useState<"products" | "artists">("products");
@@ -42,11 +46,8 @@ export default function HomePage() {
         <section className="py-12 px-6">
           <h3 className="text-2xl font-semibold mb-6">Featured Products</h3>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
-            {Array.from({ length: 8 }).map((_, i) => (
-              <div key={i} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded p-4 text-center">
-                <div className="h-32 bg-gray-200 dark:bg-gray-700 mb-2" />
-                <p>Product {i + 1}</p>
-              </div>
+            {products.map((p) => (
+              <ProductCard key={p.id} title={p.title} imageUrl={p.image} price={p.price} />
             ))}
           </div>
         </section>
@@ -54,11 +55,8 @@ export default function HomePage() {
         <section className="py-12 px-6 bg-gray-50 dark:bg-[#1a1a1a]">
           <h3 className="text-2xl font-semibold mb-6">Featured Artists</h3>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded p-4 text-center">
-                <div className="h-24 w-24 mx-auto rounded-full bg-gray-200 dark:bg-gray-700 mb-2" />
-                <p>Artist {i + 1}</p>
-              </div>
+            {artists.map((a) => (
+              <ArtistCard key={a.id} name={a.name} avatarUrl={a.avatar} bio={a.bio} />
             ))}
           </div>
         </section>

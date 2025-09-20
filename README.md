@@ -64,3 +64,9 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 3. Oghenefuyere Okiotorhoro
 4. Eric Arthur
 5. Kouame Alexandre Paul
+
+DB:
+Username: tola1_db_user
+Passworsd: D11iPvazMjM5kDiX
+
+Connection String vscode: mongodb+srv://tola1_db_user:D11iPvazMjM5kDiX@haven.zrptql2.mongodb.net/

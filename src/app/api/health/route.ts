@@ -18,12 +18,12 @@ export async function GET() {
       database: "connected",
       mongoStatus: status.ok ? "ok" : "not ok"
     }, { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     return NextResponse.json({
       status: "unhealthy",
       timestamp: new Date().toISOString(),
       database: "disconnected",
-      error: error.message
+      error: error instanceof Error ? error.message : String(error)
     }, { status: 503 });
   }
 }

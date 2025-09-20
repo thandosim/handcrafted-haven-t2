@@ -79,3 +79,7 @@ export interface Review {
   moderatedStatus: "pending" | "approved" | "rejected";
   createdAt: Date;
 }
+
+export interface RouteParams {
+  params: Promise<Record<string, string>>;
+}

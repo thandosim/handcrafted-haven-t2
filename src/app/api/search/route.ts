@@ -15,11 +15,19 @@ export async function GET(req: Request) {
   const tags = url.searchParams.get("tags")?.split(",") || [];
   const materials = url.searchParams.get("materials")?.split(",") || [];
   
-  const filter: any = { 
-    status: "active", 
-    price: { $gte: minPrice, $lte: maxPrice } 
+  interface ProductFilter {
+  status?: string;
+  price?: { $gte: number; $lte: number };
+  $text?: { $search: string };
+  tags?: { $in: string[] };
+  materials?: { $in: string[] };
+  }
+
+  const filter: ProductFilter = {
+    status: "active",
+    price: { $gte: minPrice, $lte: maxPrice },
   };
-  
+
   if (query) {
     filter.$text = { $search: query };
   }

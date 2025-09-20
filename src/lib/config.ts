@@ -10,7 +10,7 @@ export const config = {
   // Cloud storage configuration (Vercel Blob, AWS S3, etc.)
   storage: {
     provider: process.env.STORAGE_PROVIDER || 'vercel',
-    // Add other storage config as needed
+    // Other storage config as required
   }
 };
 
@@ -22,4 +22,11 @@ export function validateEnv() {
   if (missing.length > 0) {
     throw new Error(`Missing environment variables: ${missing.join(', ')}`);
   }
+  
+  if (config.jwtSecret.length < 32) {
+    throw new Error('JWT_SECRET must be at least 32 characters long');
+  }
 }
+
+// Call at application startup
+validateEnv();

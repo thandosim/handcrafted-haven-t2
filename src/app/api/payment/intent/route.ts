@@ -31,7 +31,8 @@ export async function POST(req: Request) {
       { clientSecret: intent.client_secret, id: intent.id },
       { status: 200 }
     );
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message || "Server error" }, { status: 500 });
+  } catch (err: unknown) {
+  const errorMessage = err instanceof Error ? err.message : "Server error";
+  return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }

@@ -13,6 +13,7 @@ const UserSchema = new Schema({
     addedAt: { type: Date, default: () => new Date() }
   }],
   createdAt: { type: Date, default: () => new Date() },
+  wishlist: [{ type: Schema.Types.ObjectId, ref: "Product" }],
 });
 
 export default mongoose.models.User || mongoose.model("User", UserSchema);

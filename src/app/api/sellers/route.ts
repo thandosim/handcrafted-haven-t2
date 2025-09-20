@@ -9,13 +9,14 @@ const sellerSchema = z.object({
   email: z.string().email(),
 });
 
-export async function GET(req: Request) {
+export async function GET() {
   try {
     await connectDB();
     const sellers = await User.find({ role: "seller" }).lean();
     return NextResponse.json({ sellers }, { status: 200 });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+  } catch (err: unknown) {
+  const errorMessage = err instanceof Error ? err.message : "Server error";
+  return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
 
@@ -35,7 +36,8 @@ export async function POST(req: Request) {
 
     const seller = await User.create({ ...parsed.data, role: "seller" });
     return NextResponse.json({ seller }, { status: 201 });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+  } catch (err: unknown) {
+  const errorMessage = err instanceof Error ? err.message : "Server error";
+  return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }

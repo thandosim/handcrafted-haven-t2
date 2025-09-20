@@ -1,6 +1,15 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
+const variantSchema = new Schema({
+  name: String,
+  options: [{
+    value: String,
+    priceDelta: Number,
+    stock: Number
+  }]
+});
+
 const ProductSchema = new Schema({
   sellerId: { type: Schema.Types.ObjectId, ref: "User", index: true },
   title: String,
@@ -17,6 +26,10 @@ const ProductSchema = new Schema({
   ratingCount: { type: Number, default: 0 },
   ratingSum: { type: Number, default: 0 },
   createdAt: { type: Date, default: () => new Date() },
+  variants: [variantSchema],
+  defaultVariant: String
 });
+
+
 
 export default mongoose.models.Product || mongoose.model("Product", ProductSchema);

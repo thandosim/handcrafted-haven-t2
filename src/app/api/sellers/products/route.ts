@@ -6,6 +6,7 @@ import Product from "@/models/Products";
 import { z } from "zod";
 
 const productUpdateSchema = z.object({
+  id: z.string().min(1), // Add ID to the schema since we'll get it from body
   title: z.string().min(3).optional(),
   description: z.string().min(10).optional(),
   price: z.number().nonnegative().optional(),
@@ -23,7 +24,7 @@ export async function GET(req: Request) {
   return NextResponse.json({ products }, { status: 200 });
 }
 
-export async function PATCH(req: Request, { params }: { params: { id: string } }) {
+export async function PATCH(req: Request) {
   const payload = requireAuth(req);
   if (!payload || payload.role !== "seller") 
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
@@ -36,9 +37,11 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
   await connectDB();
   
   // Verify the product belongs to this seller
-  const product = await Product.findOne({ _id: params.id, sellerId: payload.sub });
+  const product = await Product.findOne({ _id: parsed.data.id, sellerId: payload.sub });
   if (!product) return NextResponse.json({ error: "Product not found" }, { status: 404 });
   
-  const updated = await Product.findByIdAndUpdate(params.id, parsed.data, { new: true });
+  // Remove id from data before updating
+  const { id, ...updateData } = parsed.data;
+  const updated = await Product.findByIdAndUpdate(id, updateData, { new: true });
   return NextResponse.json({ product: updated }, { status: 200 });
 }

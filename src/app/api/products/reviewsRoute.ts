@@ -5,7 +5,11 @@ import Review from "@/models/Review";
 import Order from "@/models/Order";
 import Product from "@/models/Products";
 
-export async function POST(req: Request, { params }: { params: { id: string } }) {
+export async function POST(
+  req: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params;
   const payload = requireAuth(req);
   if (!payload) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
@@ -14,23 +18,21 @@ export async function POST(req: Request, { params }: { params: { id: string } })
   const text = body.text || "";
 
   await connectDB();
-  // verified buyer check
-  const bought = await Order.exists({ buyerId: (payload as any).sub, "items.productId": params.id });
+  const bought = await Order.exists({ buyerId: payload.sub, "items.productId": id });
   if (!bought) return NextResponse.json({ error: "Only verified buyers can review" }, { status: 403 });
 
   const review = await Review.create({
-    productId: params.id,
-    authorId: (payload as any).sub,
+    productId: id,
+    authorId: payload.sub,
     rating,
     text,
     isVerifiedBuyer: true,
     moderatedStatus: "approved"
   });
 
-  // atomically update rating aggregates
-  await Product.updateOne({ _id: params.id }, {
+  await Product.updateOne({ _id: id }, {
     $inc: { ratingSum: rating, ratingCount: 1 },
-    $set: { ratingAvg: { $divide: ["$ratingSum", "$ratingCount"] } } // note: atomic avg via aggregation would be better
+    $set: { ratingAvg: { $divide: ["$ratingSum", "$ratingCount"] } }
   });
 
   return NextResponse.json({ review }, { status: 201 });

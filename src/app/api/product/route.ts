@@ -44,7 +44,11 @@ export async function GET(req: Request) {
   const maxPrice = Number(url.searchParams.get("maxPrice") || "999999");
   const tags = url.searchParams.get("tags")?.split(",") || [];
   
-  const filter: any = { status: "active", price: { $gte: minPrice, $lte: maxPrice } };
+  const filter: Record<string, unknown> = {
+  status: "active",
+  price: { $gte: minPrice, $lte: maxPrice },
+};
+
   
   if (q) filter.$text = { $search: q };
   if (tags.length > 0) filter.tags = { $in: tags };

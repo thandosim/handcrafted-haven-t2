@@ -14,8 +14,9 @@ export async function POST(req: Request) {
   
   try {
     event = stripe.webhooks.constructEvent(buf, sig, endpointSecret);
-  } catch (err: any) {
-    return NextResponse.json({ error: `Webhook error: ${err.message}` }, { status: 400 });
+  } catch (err: unknown) {
+  const errorMessage = err instanceof Error ? err.message : "Webhook error";
+  return NextResponse.json({ error: `Webhook error: ${errorMessage}` }, { status: 400 });
   }
 
   if (event.type === "payment_intent.succeeded") {
@@ -41,6 +42,20 @@ export async function POST(req: Request) {
         },
         status: "processing",
       });
+
+      // Example: Log order ID for audit trail
+      console.log(`New order created: ${order._id}`);
+
+      // // Example: Trigger post-order workflow (e.g., send confirmation email)
+      // await sendOrderConfirmationEmail(order.buyerId, order._id);
+
+      // // Example: Store order ID in a monitoring system
+      // trackOrderEvent("order_created", {
+      //   orderId: order._id,
+      //   buyerId: order.buyerId,
+      //   total: order.total,
+      // });
+
 
       for (const item of cartJson.items) {
         await Product.updateOne(

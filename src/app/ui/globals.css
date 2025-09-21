@@ -1,0 +1,119 @@
+/* globals.css */
+@import "tailwindcss";
+
+
+@theme {
+  /* Colors */
+  --color-primary: #03045E;
+  --color-secondary: #00B4D8;
+  --color-accent1: #0077B6;
+  --color-accent2: #90E0EF;
+
+  /* Font Families */
+  --font-family-inter: inter, sans-serif;
+  --font-family-lusitana: lusitana, serif;
+
+  /* Spacing */
+  --spacing-xsmall: 0.5em;
+  --spacing-small: 1rem;
+  --spacing-medium: 1.5rem;
+  --spacing-large: 2rem;
+  --spacing-massive: 5rem;
+
+  /* Box Shadows */
+  --box-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
+  --box-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --box-shadow-lg: 0 8px 12px rgba(0, 0, 0, 0.1);
+
+  --box-shadow-inner-sm: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  --box-shadow-inner-md: inset 0 4px 6px rgba(0, 0, 0, 0.1);
+  --box-shadow-inner-lg: inset 0 8px 12px rgba(0, 0, 0, 0.1);
+
+  /* Animations */
+  --animate-float: float 3s ease infinite;
+  --animate-fade-in: fadeIn 0.5s ease-in-out;
+  --animate-vibrate-slow: vibrateSlow 1s linear;
+  --animate-blink: blink1 5s linear 0s infinite normal none;
+
+  /* Add breakpoints */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+}
+
+/* Keyframes */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes vibrateSlow {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  20% {
+    transform: translate(2px, -2px);
+  }
+
+  40% {
+    transform: translate(2px, 2px);
+  }
+
+  60% {
+    transform: translate(-2px, 2px);
+  }
+
+  80% {
+    transform: translate(-2px, -2px);
+  }
+
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+
+  25% {
+    transform: translateY(-10px);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+
+  75% {
+    transform: translateY(-15px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes blink1 {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}

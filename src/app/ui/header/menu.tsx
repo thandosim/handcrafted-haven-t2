@@ -54,36 +54,40 @@ export default function Menu() {
         <ul className="flex flex-col md:flex-row md:flex-wrap md:justify-center">
           {navlinks.map((link) => {
             return (
-              <Link
-                key={link.name}
-                href={link.href}
-                className={clsx(
-                  "block p-small text-gray-500 text-center hover:bg-accent2 hover:text-gray-900 border-b-1 border-gray-100  md:border-none md:px-medium",
-                  {
-                    "bg-accent2 text-gray-900": pathname === link.href,
-                  }
-                )}
-              >
-                {link.name}
-              </Link>
+              <li key={link.name}>
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className={clsx(
+                    "block p-small text-gray-500 text-center hover:bg-accent2 hover:text-gray-900 border-b-1 border-gray-100  md:border-none md:px-medium",
+                    {
+                      "bg-accent2 text-gray-900": pathname === link.href,
+                    }
+                  )}
+                >
+                  {link.name}
+                </Link>
+              </li>
             );
           })}
         </ul>
         <ul className="flex flex-col md:flex-row  md:flex-wrap">
           {accountlinks.map((link) => {
             return (
-              <Link
-                key={link.name}
-                href={link.href}
-                className={clsx(
-                  "block p-small text-gray-500 text-center hover:bg-accent2 hover:text-gray-900 border-b-1 border-gray-100 md:border-none md:px-medium",
-                  {
-                    "bg-accent2 text-gray-900": pathname === link.href,
-                  }
-                )}
-              >
-                {link.name}
-              </Link>
+              <li key={link.name}>
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className={clsx(
+                    "block p-small text-gray-500 text-center hover:bg-accent2 hover:text-gray-900 border-b-1 border-gray-100 md:border-none md:px-medium",
+                    {
+                      "bg-accent2 text-gray-900": pathname === link.href,
+                    }
+                  )}
+                >
+                  {link.name}
+                </Link>
+              </li>
             );
           })}
         </ul>

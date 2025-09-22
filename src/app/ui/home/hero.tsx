@@ -20,7 +20,6 @@ export default function HeroBanner() {
           alt="Handcrafted Image"
           width="760"
           height="426"
-          loading="lazy"
           className="w-full h-full object-cover object-center"
         />
       </picture>

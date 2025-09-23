@@ -1,0 +1,371 @@
+PROPOSED SYSTEM FILE STRUCTURE.
+
+handcrafted-haven-t2/
+├── app/                               # NEXT.JS APP ROUTER (FRONTEND)
+│   ├── api/                           # API ROUTES (BACKEND)
+│   │   ├── auth/
+│   │   │   ├── login/
+│   │   │   │   └── route.ts
+│   │   │   ├── register/
+│   │   │   │   └── route.ts
+│   │   │   ├── logout/
+│   │   │   │   └── route.ts
+│   │   │   ├── forgot-password/
+│   │   │   │   └── route.ts
+│   │   │   ├── reset-password/
+│   │   │   │   └── route.ts
+│   │   │   └── me/
+│   │   │       └── route.ts
+│   │   ├── users/
+│   │   │   ├── profile/
+│   │   │   │   └── route.ts
+│   │   │   ├── [id]/
+│   │   │   │   └── route.ts
+│   │   │   └── [id]/role/
+│   │   │       └── route.ts
+│   │   ├── sellers/
+│   │   │   ├── route.ts
+│   │   │   ├── products/
+│   │   │   │   └── route.ts
+│   │   │   └── stats/
+│   │   │       └── route.ts
+│   │   ├── products/
+│   │   │   ├── route.ts
+│   │   │   ├── [slug]/
+│   │   │   │   └── route.ts
+│   │   │   ├── [id]/
+│   │   │   │   └── route.ts
+│   │   │   └── search/
+│   │   │       └── route.ts
+│   │   ├── cart/
+│   │   │   ├── route.ts
+│   │   │   └── price/
+│   │   │       └── route.ts
+│   │   ├── orders/
+│   │   │   ├── route.ts
+│   │   │   └── [id]/
+│   │   │       └── route.ts
+│   │   ├── reviews/
+│   │   │   ├── route.ts
+│   │   │   └── [id]/
+│   │   │       └── route.ts
+│   │   ├── wishlist/
+│   │   │   └── route.ts
+│   │   ├── payment/
+│   │   │   ├── intent/
+│   │   │   │   └── route.ts
+│   │   │   └── webhook/
+│   │   │       └── route.ts
+│   │   ├── upload/
+│   │   │   └── route.ts
+│   │   ├── admin/
+│   │   │   ├── stats/
+│   │   │   │   └── route.ts
+│   │   │   ├── users/
+│   │   │   │   └── route.ts
+│   │   │   └── moderation/
+│   │   │       └── route.ts
+│   │   ├── health/
+│   │   │       └── route.ts
+│   │   ├── swagger/
+│   │   |       └── route.ts
+│   |   ├── search/
+│   |   │       └── route.ts
+│   |   ├── health/
+│   |   │       └── route.ts
+│   ├── lib/                           # SHARED UTILITIES
+│   │   ├── api.ts                     # FRONTEND: API client
+│   │   ├── auth.ts                    # BACKEND: Auth utilities
+│   │   ├── db.ts                      # BACKEND: Database connection
+│   │   ├── jwt.ts                     # BACKEND: JWT utilities
+│   │   ├── validation.ts              # SHARED: Zod schemas
+│   │   ├── rate-limit.ts              # BACKEND: Rate limiting
+│   │   ├── sanitize.ts                # SHARED: Input sanitization
+│   │   ├── logger.ts                  # SHARED: Logging
+│   │   ├── email.ts                   # BACKEND: Email service
+│   │   ├── config.ts                  # SHARED: Config validation
+│   │   └── types.ts                   # SHARED: TypeScript types
+│   ├── models/                        # BACKEND: Database models
+│   │   ├── User.ts
+│   │   ├── Product.ts
+│   │   ├── Order.ts
+│   │   ├── Review.ts
+│   │   └── index.ts
+│   ├── contexts/                      # FRONTEND: React contexts
+│   │   ├── AuthContext.tsx
+│   │   ├── CartContext.tsx
+│   │   ├── ProductsContext.tsx
+│   │   └── index.ts
+│   ├── hooks/                         # FRONTEND: Custom React hooks
+│   │   ├── useProducts.ts
+│   │   ├── useProduct.ts
+│   │   ├── useCart.ts
+│   │   ├── useAuth.ts
+│   │   └── index.ts
+│   ├── components/                    # FRONTEND: React components
+│   │   ├── ui/                        # Reusable UI components
+│   │   │   ├── Button.tsx
+│   │   │   ├── Input.tsx
+│   │   │   ├── Modal.tsx
+│   │   │   ├── LoadingSpinner.tsx
+│   │   │   └── Pagination.tsx
+│   │   ├── layout/                    # Layout components
+│   │   │   ├── Navbar.tsx
+│   │   │   ├── Footer.tsx
+│   │   │   ├── Layout.tsx
+│   │   │   └── Sidebar.tsx
+│   │   ├── product/                   # Product-related components
+│   │   │   ├── ProductCard.tsx
+│   │   │   ├── ProductList.tsx
+│   │   │   ├── ProductDetail.tsx
+│   │   │   └── ProductForm.tsx
+│   │   ├── cart/                      # Cart components
+│   │   │   ├── CartItem.tsx
+│   │   │   ├── CartSummary.tsx
+│   │   │   └── CartSidebar.tsx
+│   │   ├── auth/                      # Auth components
+│   │   │   ├── LoginForm.tsx
+│   │   │   ├── RegisterForm.tsx
+│   │   │   └── AuthModal.tsx
+│   │   └── review/                    # Review components
+│   │       ├── ReviewCard.tsx
+│   │       ├── ReviewList.tsx
+│   │       └── ReviewForm.tsx
+│   ├── pages/                         # FRONTEND: Page components
+│   │   ├── home/
+│   │   │   └── page.tsx
+│   │   ├── products/
+│   │   │   ├── page.tsx
+│   │   │   └── [slug]/
+│   │   │       └── page.tsx
+│   │   ├── cart/
+│   │   │   └── page.tsx
+│   │   ├── checkout/
+│   │   │   └── page.tsx
+│   │   ├── profile/
+│   │   │   └── page.tsx
+│   │   ├── dashboard/
+│   │   │   └── page.tsx
+│   │   ├── admin/
+│   │   │   └── page.tsx
+│   │   ├── auth/
+│   │   │   ├── login/
+│   │   │   │   └── page.tsx
+│   │   │   ├── register/
+│   │   │   │   └── page.tsx
+│   │   │   └── forgot-password/
+│   │   │       └── page.tsx
+│   │   └── 404.tsx
+│   ├── middleware.ts                   # BACKEND: Next.js middleware
+│   ├── layout.tsx                     # FRONTEND: Root layout
+│   ├── page.tsx                       # FRONTEND: Home page
+│   └── globals.css                    # FRONTEND: Global styles
+├── scripts/                           # BACKEND: Scripts
+│   ├── ensure-indexes.ts
+│   └── generate-swagger.ts
+|   └── seed-data.ts
+├── tests/                             # SHARED: Tests
+│   ├── api/                           # BACKEND: API tests
+│   │   ├── auth.test.ts
+│   │   ├── products.test.ts
+│   │   ├── orders.test.ts
+│   │   └── cart.test.ts
+│   ├── frontend/                      # FRONTEND: Component tests
+│   │   ├── components/
+│   │   └── pages/
+│   ├── utils.ts
+│   └── setup.ts
+├── public/                            # FRONTEND: Static assets
+│   ├── images/
+│   ├── icons/
+│   └── favicon.ico
+├── types/                             # SHARED: TypeScript types
+│   └── index.ts
+├── .env.local
+├── .env.example
+├── .gitignore
+├── next.config.js
+├── tsconfig.json
+├── package.json
+├── vercel.json
+└── README.md
+
+DISTRIBUTION OF CONCERNS: 
+
+BACKEND:
+1. API Development & Maintenance
+    Design and implement all API endpoints in /app/api/
+    Ensure RESTful API design principles
+    Implement proper HTTP status codes and error handling
+    Create API documentation
+
+2. Database Management
+    Design MongoDB schemas and models in /app/models/
+    Create and maintain database indexes
+    Implement database migrations
+    Optimize database queries for performance
+    Set up database backups and recovery
+
+3. Authentication & Authorization
+    Implement JWT-based authentication system
+    Create role-based access control (RBAC)
+    Handle password hashing and reset flows
+    Manage session/token management
+
+4. Payment Integration
+    Implement Stripe payment processing
+    Create webhook handlers for payment events
+    Handle order processing and inventory updates
+    Implement refund and cancellation logic
+
+5. File Upload & Storage
+    Implement image upload endpoints
+    Integrate with cloud storage (Vercel Blob, AWS S3)
+    Handle file validation and processing
+    Implement CDN configuration
+
+6. Security
+    Implement rate limiting and DDoS protection
+    Set up input validation and sanitization
+    Prevent SQL/NoSQL injection attacks
+    Implement CORS policies
+    Secure environment variables and secrets
+
+7. Performance Optimization
+    Implement caching strategies (Redis, CDN)
+    Optimize database queries
+    Implement pagination for large datasets
+    Set up API response compression
+
+8. Testing & Quality Assurance
+    Write unit tests for API endpoints
+    Implement integration tests
+    Set up API contract testing
+    Performance and load testing
+
+9. Deployment & DevOps
+    Configure production environment variables
+    Set up MongoDB Atlas or similar database service
+    Implement CI/CD pipeline for backend
+    Configure monitoring and logging
+    Set up error tracking (Sentry, etc.)
+
+10. Third-party Integrations
+    Email service integration (transactional emails)
+    Analytics and tracking services
+    Search service integration (Algolia, ElasticSearch)
+    CDN configuration
+
+FRONTEND:
+1. UI/UX Implementation
+    Design and implement responsive user interfaces
+    Create reusable React components in /app/components/
+    Implement responsive design for mobile/tablet/desktop
+    Ensure accessibility (a11y) compliance
+
+2. State Management
+    Implement React Context for global state
+    Manage local state with useState/useReducer
+    Implement data fetching with React Query or SWR
+    Handle form state and validation
+
+3. API Integration
+    Create API client in /app/lib/api.ts
+    Handle API errors and loading states
+    Implement data caching strategies
+    Manage authentication tokens in frontend
+
+4. Routing & Navigation
+    Implement Next.js App Router navigation
+    Handle protected routes and authentication guards
+    Implement dynamic routing for products/users
+    Manage breadcrumbs and navigation state
+
+5. User Experience
+    Implement loading states and skeletons
+    Handle form submissions and validation
+    Create toast notifications and user feedback
+    Implement smooth animations and transitions
+
+6. Performance Optimization
+    Implement code splitting and lazy loading
+    Optimize images and assets
+    Reduce JavaScript bundle size
+    Implement virtual scrolling for large lists
+
+7. Testing
+    Write unit tests for React components
+    Implement integration tests for user flows
+    Set up E2E testing with Cypress/Playwright
+    Cross-browser testing
+
+8. Styling & Design System
+    Implement CSS-in-JS or Tailwind CSS system
+    Create design token system (colors, typography, spacing)
+    Ensure consistent styling across components
+    Implement dark/light mode theme
+
+9. SEO Optimization
+    Implement meta tags and structured data
+    Optimize page load times for SEO
+    Implement Open Graph tags for social sharing
+    Create sitemap and robots.txt
+
+10. Analytics & Monitoring
+    Implement analytics tracking (Google Analytics, etc.)
+    Set up error boundary components
+    Monitor frontend performance (Core Web Vitals)
+    Implement A/B testing framework
+
+SHARED CONCERNS:
+1. TypeScript Definitions
+    Maintain shared types in /types/ and /app/lib/types.ts
+    Keep frontend and backend types in sync
+    Implement type-safe API contracts
+
+2. Validation Schemas
+    Maintain Zod schemas in /app/lib/validation.ts
+    Ensure consistent validation rules
+    Share validation between frontend and backend
+
+3. Code Quality
+    Implement ESLint and Prettier configuration
+    Maintain consistent code style
+    Conduct code reviews
+    Ensure testing coverage
+
+4. Documentation
+    Maintain API documentation
+    Create component documentation
+    Write setup and deployment guides
+    Maintain README files
+
+5. Performance Monitoring
+    Set up performance monitoring tools
+    Analyze and fix performance bottlenecks
+    Implement logging and error tracking
+
+6. Security Review
+    Conduct security audits
+    Implement security best practices
+    Handle dependency vulnerability scanning
+
+DEPLOYMENT & COLLABORATION
+Backend:
+    API deployment to Vercel/Netlify
+    Database setup and management
+    Environment configuration
+    API monitoring and logging
+
+Frontend:
+    Frontend deployment optimization
+    CDN configuration for assets
+    Frontend performance monitoring
+    Browser compatibility testing
+
+Collaboration Points:
+    API contract agreements
+    Data structure consistency
+    Error handling patterns
+    Authentication flow coordination
+    Performance budget planning

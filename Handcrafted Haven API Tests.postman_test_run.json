@@ -1,0 +1,836 @@
+{
+	"id": "c33304a4-3185-4f5b-9869-6cde653d425e",
+	"name": "Handcrafted Haven API Tests",
+	"timestamp": "2025-09-20T12:07:12.700Z",
+	"collection_id": "20792514-4c567a57-ee65-4f79-bfe1-045a7926bed5",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 0,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2025-09-20T12:07:00.901Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "ab13f577-5cbf-4cf4-83b0-b201343be8d8",
+			"name": "Register User",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 2020,
+			"responseCode": {
+				"code": 409,
+				"name": "Conflict"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				2020
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "1730f689-88c5-4f48-9003-34556d8986eb",
+			"name": "Login User",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 382,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				382
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "ff8d8980-81c5-4f89-9b90-a36d2d47071b",
+			"name": "Get Current User",
+			"url": "http://localhost:3000/api/users/me",
+			"time": 966,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				966
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "b850eed9-9aba-4fae-87cb-73dfa326c4ee",
+			"name": "Forgot Password",
+			"url": "http://localhost:3000/api/auth/forgot-password",
+			"time": 684,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				684
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "f2d34674-7ef6-4d6a-abe9-254ad23040f6",
+			"name": "Logout",
+			"url": "http://localhost:3000/api/auth/logout",
+			"time": 9,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				9
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "ef744fc2-4fd4-4743-b080-f0aee617eed2",
+			"name": "Get User Profile",
+			"url": "http://localhost:3000/api/users/profile",
+			"time": 13,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				13
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "aecb2105-fad6-4977-bbd7-be031aa60f43",
+			"name": "Update User Profile",
+			"url": "http://localhost:3000/api/users/profile",
+			"time": 7,
+			"responseCode": {
+				"code": 405,
+				"name": "Method Not Allowed"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				7
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "9d9b97da-6580-4b1d-b5ba-d1db1184efb2",
+			"name": "Change User Role (Admin Only)",
+			"url": "http://localhost:3000/api/users//role",
+			"time": 18,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				18
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "50155436-dde0-4cf0-91af-8411c3f6c8ed",
+			"name": "Get All Products",
+			"url": "http://localhost:3000/api/product?page=1&limit=12",
+			"time": 292,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				292
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "d92ed3ff-a3c1-4561-b5a5-58e225180d10",
+			"name": "Search Products",
+			"url": "http://localhost:3000/api/search?q=handmade&minPrice=10&maxPrice=100",
+			"time": 155,
+			"responseCode": {
+				"code": 500,
+				"name": "Internal Server Error"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				155
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "aa9ab28f-34bb-4763-839d-0f7a665f9d96",
+			"name": "Create Product (Seller)",
+			"url": "http://localhost:3000/api/product",
+			"time": 6,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				6
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "703abda3-9a1d-4ad3-815c-89d9eb4c5ee1",
+			"name": "Get Product by Slug",
+			"url": "http://localhost:3000/api/product/handmade-ceramic-vase",
+			"time": 918,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				918
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "df4f4a14-3cd2-4f7f-9784-a91b3fcbcd6e",
+			"name": "Get Seller Products",
+			"url": "http://localhost:3000/api/sellers/products",
+			"time": 7,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				7
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "4bbbe7b5-dbbf-4cc0-a4ca-a3488138d012",
+			"name": "Update Product (Seller)",
+			"url": "http://localhost:3000/api/sellers/products/",
+			"time": 5,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				5
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "da5dd1cf-530b-4d02-a619-acb7b45e3496",
+			"name": "Delete Product (Seller)",
+			"url": "http://localhost:3000/api/sellers/products/",
+			"time": 5,
+			"responseCode": {
+				"code": 405,
+				"name": "Method Not Allowed"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				5
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "f84cb100-6ef5-40c0-b189-cb03bb1327d3",
+			"name": "Get Cart",
+			"url": "http://localhost:3000/api/cart",
+			"time": 7,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				7
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "5f145799-eb9c-4305-814c-ecce3a8ce165",
+			"name": "Add to Cart",
+			"url": "http://localhost:3000/api/cart",
+			"time": 6,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				6
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "1b57b82a-7ac4-465d-a555-2d836f378622",
+			"name": "Update Cart Item",
+			"url": "http://localhost:3000/api/cart",
+			"time": 5,
+			"responseCode": {
+				"code": 405,
+				"name": "Method Not Allowed"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				5
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "a77c1039-08de-41b4-94b2-c431efcdb0a5",
+			"name": "Remove from Cart",
+			"url": "http://localhost:3000/api/cart",
+			"time": 5,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				5
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "bea1c341-4830-42c3-bfc0-62a8d37b0e3c",
+			"name": "Get User Orders",
+			"url": "http://localhost:3000/api/orders",
+			"time": 6,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				6
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "a82c9b5e-a7c3-4adc-b8e2-7a4e26b3b0ad",
+			"name": "Create Order",
+			"url": "http://localhost:3000/api/orders",
+			"time": 6,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				6
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "c639b624-afb3-4065-8306-ee8319746fa8",
+			"name": "Get Order by ID",
+			"url": "http://localhost:3000/api/orders/",
+			"time": 4,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				4
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "1a896342-7d87-4deb-ba67-413103bc99b8",
+			"name": "Update Order Status",
+			"url": "http://localhost:3000/api/orders/",
+			"time": 3,
+			"responseCode": {
+				"code": 405,
+				"name": "Method Not Allowed"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				3
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "0c75b1e6-86ca-4972-8b50-dfc333a46c1a",
+			"name": "Get Product Reviews",
+			"url": "http://localhost:3000/api/reviews?productId=",
+			"time": 7,
+			"responseCode": {
+				"code": 405,
+				"name": "Method Not Allowed"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				7
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "05d03ecb-c20b-459a-b856-c477bc942287",
+			"name": "Create Review",
+			"url": "http://localhost:3000/api/reviews",
+			"time": 5,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				5
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "c049f837-3aa1-4008-8128-1f53f9b7b40d",
+			"name": "Update Review",
+			"url": "http://localhost:3000/api/reviews/{{reviewId}}",
+			"time": 8,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				8
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "b36c8749-411c-4732-a8dd-19db813db4a7",
+			"name": "Delete Review",
+			"url": "http://localhost:3000/api/reviews/{{reviewId}}",
+			"time": 5,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				5
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "ad323948-a632-4024-8c3f-d94a93bb5b38",
+			"name": "Create Payment Intent",
+			"url": "http://localhost:3000/api/payment/intent",
+			"time": 9,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				9
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "07b487bd-2c63-4f1c-a70f-96a0edd1f8cd",
+			"name": "Stripe Webhook",
+			"url": "http://localhost:3000/api/webhook/stripe",
+			"time": 7,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				7
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "da162c39-22f5-4c1e-88a3-071f32ebb738",
+			"name": "Get Wishlist",
+			"url": "http://localhost:3000/api/wishlist",
+			"time": 5,
+			"responseCode": {
+				"code": 405,
+				"name": "Method Not Allowed"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				5
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "54421fdc-2556-4d41-b185-f1bc4c60e790",
+			"name": "Add to Wishlist",
+			"url": "http://localhost:3000/api/wishlist",
+			"time": 5,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				5
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "fa7b9fcb-47fc-47a9-89b7-a3ecf069ee62",
+			"name": "Remove from Wishlist",
+			"url": "http://localhost:3000/api/wishlist",
+			"time": 5,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				5
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "182248ef-80f0-46db-862b-2d5eb1f8c48e",
+			"name": "Get Admin Stats",
+			"url": "http://localhost:3000/api/admin/stats",
+			"time": 5,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				5
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "d15561d6-290e-4fe1-8d6f-6ed7a1515f95",
+			"name": "Get All Sellers",
+			"url": "http://localhost:3000/api/sellers",
+			"time": 1477,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				1477
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "d332c2c3-b346-46f4-9ef5-fce57995d4d5",
+			"name": "Upload File",
+			"url": "http://localhost:3000/api/upload",
+			"time": 8,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				8
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "3767c445-e39f-46ee-a89e-6aefed552d42",
+			"name": "Get Swagger Docs",
+			"url": "http://localhost:3000/api/swagger",
+			"time": 5,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				5
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "6f7b036c-542e-4c8e-b195-59e742d19259",
+			"name": "Health Check",
+			"url": "http://localhost:3000/api/health",
+			"time": 710,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				710
+			],
+			"allTests": [
+				{}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 7790,
+	"collection": {
+		"requests": [
+			{
+				"id": "ab13f577-5cbf-4cf4-83b0-b201343be8d8",
+				"method": "POST"
+			},
+			{
+				"id": "1730f689-88c5-4f48-9003-34556d8986eb",
+				"method": "POST"
+			},
+			{
+				"id": "ff8d8980-81c5-4f89-9b90-a36d2d47071b",
+				"method": "GET"
+			},
+			{
+				"id": "b850eed9-9aba-4fae-87cb-73dfa326c4ee",
+				"method": "POST"
+			},
+			{
+				"id": "f2d34674-7ef6-4d6a-abe9-254ad23040f6",
+				"method": "POST"
+			},
+			{
+				"id": "ef744fc2-4fd4-4743-b080-f0aee617eed2",
+				"method": "GET"
+			},
+			{
+				"id": "aecb2105-fad6-4977-bbd7-be031aa60f43",
+				"method": "PATCH"
+			},
+			{
+				"id": "9d9b97da-6580-4b1d-b5ba-d1db1184efb2",
+				"method": "PATCH"
+			},
+			{
+				"id": "50155436-dde0-4cf0-91af-8411c3f6c8ed",
+				"method": "GET"
+			},
+			{
+				"id": "d92ed3ff-a3c1-4561-b5a5-58e225180d10",
+				"method": "GET"
+			},
+			{
+				"id": "aa9ab28f-34bb-4763-839d-0f7a665f9d96",
+				"method": "POST"
+			},
+			{
+				"id": "703abda3-9a1d-4ad3-815c-89d9eb4c5ee1",
+				"method": "GET"
+			},
+			{
+				"id": "df4f4a14-3cd2-4f7f-9784-a91b3fcbcd6e",
+				"method": "GET"
+			},
+			{
+				"id": "4bbbe7b5-dbbf-4cc0-a4ca-a3488138d012",
+				"method": "PATCH"
+			},
+			{
+				"id": "da5dd1cf-530b-4d02-a619-acb7b45e3496",
+				"method": "DELETE"
+			},
+			{
+				"id": "f84cb100-6ef5-40c0-b189-cb03bb1327d3",
+				"method": "GET"
+			},
+			{
+				"id": "5f145799-eb9c-4305-814c-ecce3a8ce165",
+				"method": "POST"
+			},
+			{
+				"id": "1b57b82a-7ac4-465d-a555-2d836f378622",
+				"method": "PATCH"
+			},
+			{
+				"id": "a77c1039-08de-41b4-94b2-c431efcdb0a5",
+				"method": "DELETE"
+			},
+			{
+				"id": "bea1c341-4830-42c3-bfc0-62a8d37b0e3c",
+				"method": "GET"
+			},
+			{
+				"id": "a82c9b5e-a7c3-4adc-b8e2-7a4e26b3b0ad",
+				"method": "POST"
+			},
+			{
+				"id": "c639b624-afb3-4065-8306-ee8319746fa8",
+				"method": "GET"
+			},
+			{
+				"id": "1a896342-7d87-4deb-ba67-413103bc99b8",
+				"method": "PATCH"
+			},
+			{
+				"id": "0c75b1e6-86ca-4972-8b50-dfc333a46c1a",
+				"method": "GET"
+			},
+			{
+				"id": "05d03ecb-c20b-459a-b856-c477bc942287",
+				"method": "POST"
+			},
+			{
+				"id": "c049f837-3aa1-4008-8128-1f53f9b7b40d",
+				"method": "PATCH"
+			},
+			{
+				"id": "b36c8749-411c-4732-a8dd-19db813db4a7",
+				"method": "DELETE"
+			},
+			{
+				"id": "ad323948-a632-4024-8c3f-d94a93bb5b38",
+				"method": "POST"
+			},
+			{
+				"id": "07b487bd-2c63-4f1c-a70f-96a0edd1f8cd",
+				"method": "POST"
+			},
+			{
+				"id": "da162c39-22f5-4c1e-88a3-071f32ebb738",
+				"method": "GET"
+			},
+			{
+				"id": "54421fdc-2556-4d41-b185-f1bc4c60e790",
+				"method": "POST"
+			},
+			{
+				"id": "fa7b9fcb-47fc-47a9-89b7-a3ecf069ee62",
+				"method": "DELETE"
+			},
+			{
+				"id": "182248ef-80f0-46db-862b-2d5eb1f8c48e",
+				"method": "GET"
+			},
+			{
+				"id": "d15561d6-290e-4fe1-8d6f-6ed7a1515f95",
+				"method": "GET"
+			},
+			{
+				"id": "d332c2c3-b346-46f4-9ef5-fce57995d4d5",
+				"method": "POST"
+			},
+			{
+				"id": "3767c445-e39f-46ee-a89e-6aefed552d42",
+				"method": "GET"
+			},
+			{
+				"id": "6f7b036c-542e-4c8e-b195-59e742d19259",
+				"method": "GET"
+			}
+		]
+	}
+}

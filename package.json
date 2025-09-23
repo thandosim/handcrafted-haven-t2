@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "swagger": "node ./swagger.js"
+    "generate-swagger": "tsx src/app/scripts/generate-swagger.ts",
+    "swagger": "npm run generate-swagger"
   },
   "dependencies": {
     "@vercel/blob": "^2.0.0",
@@ -38,6 +39,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.5.2",
     "tailwindcss": "^4",
+    "tsx": "^4.20.5",
     "typescript": "^5"
   }
 }

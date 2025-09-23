@@ -1,6 +1,6 @@
 PROPOSED SYSTEM FILE STRUCTURE.
 
-handcrafted-haven/
+handcrafted-haven-t2/
 ├── app/                               # NEXT.JS APP ROUTER (FRONTEND)
 │   ├── api/                           # API ROUTES (BACKEND)
 │   │   ├── auth/
@@ -162,7 +162,8 @@ handcrafted-haven/
 │   └── globals.css                    # FRONTEND: Global styles
 ├── scripts/                           # BACKEND: Scripts
 │   ├── ensure-indexes.ts
-│   └── seed-data.ts
+│   └── generate-swagger.ts
+|   └── seed-data.ts
 ├── tests/                             # SHARED: Tests
 │   ├── api/                           # BACKEND: API tests
 │   │   ├── auth.test.ts

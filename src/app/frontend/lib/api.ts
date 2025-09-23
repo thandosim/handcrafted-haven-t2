@@ -1,4 +1,4 @@
-const baseUrl = 'http://localhost:3000/appi'
+const baseUrl = 'http://localhost:3000/api'
 
 export async function fetchFeaturedProduct() {
     try {

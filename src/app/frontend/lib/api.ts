@@ -2,7 +2,7 @@ const baseUrl = 'http://localhost:3000/api'
 
 export async function fetchFeaturedProduct() {
     try {
-        const res = await fetch(`${baseUrl}/products?limit=8`);
+        const res = await fetch(`${baseUrl}/product?limit=8`);
         //Simulate API Call
         await new Promise(resolve => setTimeout(resolve, 2000));
         if (res.ok) {

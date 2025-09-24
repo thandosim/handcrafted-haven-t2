@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <header className="shadow-sm p-small w-full md:flex md:flex-row md:px-massive md:py-0 md:justify-evenly">
+        <header className="shadow-sm p-small w-full md:flex md:flex-row md:px-massive md:py-0 md:justify-evenly md:items-center">
           <Logo />
           <Nav />
         </header>

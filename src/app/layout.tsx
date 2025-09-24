@@ -1,4 +1,4 @@
-import "@/app/ui/globals.css";
+import "./frontend/ui/globals.css";
 import Logo from "./frontend/ui/header/logo";
 import Nav from "./frontend/ui/header/menu";
 import { Viewport } from "next";

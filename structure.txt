@@ -370,4 +370,29 @@ Collaboration Points:
     Authentication flow coordination
 
     
-    Performance budget planningAnyother thing required
+MONGODB ENDPOINT CONNECTION STRING MAPPING
+@lib/config.ts: Used everywhere for configuration consistency
+@lib/mongodb.ts: Best for lightweight API routes, health checks, or when you want performance and don’t need schemas/models.
+@lib/db.ts: Best for API routes that require business logic, schemas/models, as it requiring 
+    strong data modeling, relationships, middleware, or custom validators and type safety.
+
+    Should use mongodb.ts
+        app/api/health/route.ts
+        scripts/ensure-indexes.ts (could go either way, but raw driver is usually cleaner)
+        scripts/generate-swagger.ts
+        scripts/seed-data.ts (if just dumping docs quickly, MongoClient might be easier)
+
+    Should use db.ts
+        app/api/auth/*
+        app/api/users/*
+        app/api/sellers/*
+        app/api/products/*
+        app/api/orders/*
+        app/api/reviews/*
+        app/api/wishlist/*
+        app/api/cart/*
+        app/api/payment/*
+        app/api/admin/*
+        app/api/upload/* (if you store file metadata in Mongo)
+        middleware.ts (if it checks users/roles from DB)
+        models/* obviously ties into db.ts

@@ -48,7 +48,7 @@
 									"if (pm.response.code === 200) {",
 									"  var jsonData = pm.response.json();",
 									"  pm.collectionVariables.set('token', jsonData.token);",
-									"  pm.collectionVariables.set('userId', jsonData.user._id);",
+									"  pm.collectionVariables.set('userId', jsonData.user.id);",
 									"}"
 								],
 								"type": "text/javascript"
@@ -76,30 +76,6 @@
 								"api",
 								"auth",
 								"login"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Current User",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/api/users/me",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"users",
-								"me"
 							]
 						}
 					},
@@ -163,6 +139,30 @@
 			"name": "Users",
 			"item": [
 				{
+					"name": "Get Current User Profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/users/me",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Get User Profile",
 					"request": {
 						"method": "GET",
@@ -189,7 +189,7 @@
 				{
 					"name": "Update User Profile",
 					"request": {
-						"method": "PATCH",
+						"method": "PUT",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -202,7 +202,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"John Updated\",\n  \"bio\": \"Updated bio\"\n}"
+							"raw": "{\n  \"name\": \"John Updated\",\n  \"email\": \"john.updated@example.com\"\n}"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/api/users/profile",
@@ -229,7 +229,7 @@
 							},
 							{
 								"key": "Authorization",
-								"value": "Bearer {{token}}"
+								"value": "Bearer {{adminToken}}"
 							}
 						],
 						"body": {
@@ -254,6 +254,60 @@
 			]
 		},
 		{
+			"name": "Sellers",
+			"item": [
+				{
+					"name": "Get All Sellers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/sellers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"sellers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Seller (Admin Only)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Artisan Seller\",\n  \"email\": \"artisan@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/sellers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"sellers"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Products",
 			"item": [
 				{
@@ -262,13 +316,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/api/product?page=1&limit=12",
+							"raw": "{{baseUrl}}/api/products?page=1&limit=12&minPrice=10&maxPrice=100&tags=handmade,ceramic",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"api",
-								"product"
+								"products"
 							],
 							"query": [
 								{
@@ -278,6 +332,18 @@
 								{
 									"key": "limit",
 									"value": "12"
+								},
+								{
+									"key": "minPrice",
+									"value": "10"
+								},
+								{
+									"key": "maxPrice",
+									"value": "100"
+								},
+								{
+									"key": "tags",
+									"value": "handmade,ceramic"
 								}
 							]
 						}
@@ -290,7 +356,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/api/search?q=handmade&minPrice=10&maxPrice=100",
+							"raw": "{{baseUrl}}/api/search?q=handmade&minPrice=10&maxPrice=100&tags=ceramic&materials=clay",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -310,6 +376,14 @@
 								{
 									"key": "maxPrice",
 									"value": "100"
+								},
+								{
+									"key": "tags",
+									"value": "ceramic"
+								},
+								{
+									"key": "materials",
+									"value": "clay"
 								}
 							]
 						}
@@ -341,7 +415,7 @@
 							},
 							{
 								"key": "Authorization",
-								"value": "Bearer {{token}}"
+								"value": "Bearer {{sellerToken}}"
 							}
 						],
 						"body": {
@@ -349,13 +423,13 @@
 							"raw": "{\n  \"title\": \"Handmade Ceramic Vase\",\n  \"description\": \"Beautiful handcrafted ceramic vase perfect for home decoration\",\n  \"price\": 45.99,\n  \"stock\": 10,\n  \"tags\": [\"ceramic\", \"home-decor\", \"handmade\"],\n  \"materials\": [\"ceramic\", \"glaze\"],\n  \"images\": [\"https://example.com/vase1.jpg\"]\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/product",
+							"raw": "{{baseUrl}}/api/products",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"api",
-								"product"
+								"products"
 							]
 						}
 					},
@@ -367,13 +441,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/api/product/handmade-ceramic-vase",
+							"raw": "{{baseUrl}}/api/products/handmade-ceramic-vase",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"api",
-								"product",
+								"products",
 								"handmade-ceramic-vase"
 							]
 						}
@@ -387,17 +461,17 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{token}}"
+								"value": "Bearer {{sellerToken}}"
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/api/sellers/products",
+							"raw": "{{baseUrl}}/api/seller/products",
 							"host": [
 								"{{baseUrl}}"
-							],
+						],
 							"path": [
 								"api",
-								"sellers",
+								"seller",
 								"products"
 							]
 						}
@@ -415,7 +489,64 @@
 							},
 							{
 								"key": "Authorization",
-								"value": "Bearer {{token}}"
+								"value": "Bearer {{sellerToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": \"{{productId}}\",\n  \"price\": 49.99,\n  \"stock\": 8\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/seller/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"seller",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Seller Product by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{sellerToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/seller/products/{{productId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"seller",
+								"products",
+								"{{productId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product by ID (Seller)",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{sellerToken}}"
 							}
 						],
 						"body": {
@@ -423,13 +554,13 @@
 							"raw": "{\n  \"price\": 49.99,\n  \"stock\": 8\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/sellers/products/{{productId}}",
+							"raw": "{{baseUrl}}/api/seller/products/{{productId}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"api",
-								"sellers",
+								"seller",
 								"products",
 								"{{productId}}"
 							]
@@ -444,17 +575,17 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{token}}"
+								"value": "Bearer {{sellerToken}}"
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/api/sellers/products/{{productId}}",
+							"raw": "{{baseUrl}}/api/seller/products/{{productId}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"api",
-								"sellers",
+								"seller",
 								"products",
 								"{{productId}}"
 							]
@@ -507,37 +638,6 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n  \"productId\": \"{{productId}}\",\n  \"qty\": 2\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/api/cart",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"cart"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update Cart Item",
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"productId\": \"{{productId}}\",\n  \"qty\": 3\n}"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/api/cart",
@@ -641,7 +741,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"items\": [\n    {\n      \"productId\": \"{{productId}}\",\n      \"qty\": 1\n    }\n  ],\n  \"shippingAddress\": {\n    \"street\": \"123 Main St\",\n    \"city\": \"New York\",\n    \"state\": \"NY\",\n    \"zip\": \"10001\",\n    \"country\": \"USA\"\n  }\n}"
+							"raw": "{\n  \"items\": [\n    {\n      \"productId\": \"{{productId}}\",\n      \"qty\": 1\n    }\n  ],\n  \"total\": 45.99,\n  \"shippingAddress\": {\n    \"street\": \"123 Main St\",\n    \"city\": \"New York\",\n    \"state\": \"NY\",\n    \"zip\": \"10001\",\n    \"country\": \"USA\"\n  }\n}"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/api/orders",
@@ -679,38 +779,6 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "Update Order Status",
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"status\": \"processing\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/api/orders/{{orderId}}",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"orders",
-								"{{orderId}}"
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},
@@ -718,31 +786,21 @@
 			"name": "Reviews",
 			"item": [
 				{
-					"name": "Get Product Reviews",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/api/reviews?productId={{productId}}",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"reviews"
-							],
-							"query": [
-								{
-									"key": "productId",
-									"value": "{{productId}}"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Create Review",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"  var jsonData = pm.response.json();",
+									"  pm.collectionVariables.set('reviewId', jsonData.review._id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -757,7 +815,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"productId\": \"{{productId}}\",\n  \"rating\": 5,\n  \"comment\": \"Excellent product! Highly recommended.\"\n}"
+							"raw": "{\n  \"productId\": \"{{productId}}\",\n  \"rating\": 5,\n  \"text\": \"Excellent product! Highly recommended.\"\n}"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/api/reviews",
@@ -773,7 +831,40 @@
 					"response": []
 				},
 				{
-					"name": "Update Review",
+					"name": "Create Product Review",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"rating\": 5,\n  \"text\": \"Excellent product! Highly recommended.\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/products/{{productId}}/reviews",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"{{productId}}",
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Review Status (Admin Only)",
 					"request": {
 						"method": "PATCH",
 						"header": [
@@ -783,12 +874,12 @@
 							},
 							{
 								"key": "Authorization",
-								"value": "Bearer {{token}}"
+								"value": "Bearer {{adminToken}}"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"rating\": 4,\n  \"comment\": \"Good product, but could be better.\"\n}"
+							"raw": "{\n  \"moderatedStatus\": \"approved\"\n}"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/api/reviews/{{reviewId}}",
@@ -805,13 +896,13 @@
 					"response": []
 				},
 				{
-					"name": "Delete Review",
+					"name": "Delete Review (Admin Only)",
 					"request": {
 						"method": "DELETE",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{token}}"
+								"value": "Bearer {{adminToken}}"
 							}
 						],
 						"url": {
@@ -823,75 +914,6 @@
 								"api",
 								"reviews",
 								"{{reviewId}}"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Payment",
-			"item": [
-				{
-					"name": "Create Payment Intent",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"amount\": 45.99,\n  \"currency\": \"usd\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/api/payment/intent",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"payment",
-								"intent"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Stripe Webhook",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "stripe-signature",
-								"value": "test_signature"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"type\": \"payment_intent.succeeded\",\n  \"data\": {\n    \"object\": {\n      \"id\": \"pi_test_123\"\n    }\n  }\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/api/webhook/stripe",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"webhook",
-								"stripe"
 							]
 						}
 					},
@@ -902,29 +924,6 @@
 		{
 			"name": "Wishlist",
 			"item": [
-				{
-					"name": "Get Wishlist",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/api/wishlist",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"wishlist"
-							]
-						}
-					},
-					"response": []
-				},
 				{
 					"name": "Add to Wishlist",
 					"request": {
@@ -973,7 +972,7 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n  \"productId\": \"{{productId}}\"\n}"
-						},
+						,
 						"url": {
 							"raw": "{{baseUrl}}/api/wishlist",
 							"host": [
@@ -982,6 +981,76 @@
 							"path": [
 								"api",
 								"wishlist"
+							]
+						}
+						},
+						"response": []
+					}	
+				}
+			]
+		},
+		{
+			"name": "Payment",
+			"item": [
+				{
+					"name": "Create Payment Intent",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"total\": 45.99,\n  \"currency\": \"usd\",\n  \"cart\": {\n    \"items\": [\n      {\n        \"productId\": \"{{productId}}\",\n        \"qty\": 1\n      }\n    ]\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/payment/create-intent",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"payment",
+								"create-intent"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Stripe Webhook",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "stripe-signature",
+								"value": "test_signature"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"type\": \"payment_intent.succeeded\",\n  \"data\": {\n    \"object\": {\n      \"id\": \"pi_test_123\",\n      \"amount\": 4599,\n      \"metadata\": {\n        \"userId\": \"{{userId}}\",\n        \"cart\": \"{\\\"items\\\": [{\\\"productId\\\": \\\"{{productId}}\\\", \\\"qty\\\": 1}]}\"\n      }\n    }\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/webhook/stripe",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"webhook",
+								"stripe"
 							]
 						}
 					},
@@ -999,7 +1068,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{token}}"
+								"value": "Bearer {{adminToken}}"
 							}
 						],
 						"url": {
@@ -1011,29 +1080,6 @@
 								"api",
 								"admin",
 								"stats"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get All Sellers",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/api/sellers",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"sellers"
 							]
 						}
 					},
@@ -1060,7 +1106,7 @@
 								{
 									"key": "file",
 									"type": "file",
-									"src": "path/to/your/image.jpg"
+									"src": "/path/to/your/image.jpg"
 								}
 							]
 						},
@@ -1083,7 +1129,7 @@
 			"name": "API Documentation",
 			"item": [
 				{
-					"name": "Get Swagger Docs",
+					"name": "Get Swagger JSON",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -1095,6 +1141,25 @@
 							"path": [
 								"api",
 								"swagger"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Swagger UI",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/swagger/docs",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"swagger",
+								"docs"
 							]
 						}
 					},
@@ -1131,6 +1196,14 @@
 			"value": ""
 		},
 		{
+			"key": "adminToken",
+			"value": ""
+		},
+		{
+			"key": "sellerToken",
+			"value": ""
+		},
+		{
 			"key": "userId",
 			"value": ""
 		},
@@ -1140,6 +1213,10 @@
 		},
 		{
 			"key": "orderId",
+			"value": ""
+		},
+		{
+			"key": "reviewId",
 			"value": ""
 		}
 	]

@@ -1,4 +1,4 @@
-import { Product } from "@/app/lib/definitions";
+import { Product } from "@/app/frontend/lib/definitions";
 import Image from "next/image";
 
 export default function FeaturedProduct({ product }: { product: Product }) {

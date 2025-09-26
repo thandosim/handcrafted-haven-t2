@@ -1,4 +1,4 @@
-import { Seller } from "@/app/lib/definitions";
+import { Seller } from "@/app/frontend/lib/definitions";
 
 export default function CardFeaturedSeller({ seller }: { seller: Seller }) {
   return (

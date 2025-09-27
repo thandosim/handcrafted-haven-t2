@@ -5,21 +5,10 @@ import { Product, Seller } from "./frontend/lib/definitions";
 import SwiperSellers from "./frontend/ui/home/swiper-sellers";
 
 export default async function Home() {
-  let featuredProducts: Product[] = [];
-  let featuredSellers: Seller[] = [];
+  let featuredProducts: Product[] = await fetchFeaturedProduct();
+  let featuredSellers: Seller[] = await fetchFeaturedSellers();
 
-  try {
-    const [products, sellers] = await Promise.all([
-      fetchFeaturedProduct(),
-      fetchFeaturedSellers(),
-    ]);
-
-    featuredProducts = Array.isArray(products) ? products : [];
-    featuredSellers = Array.isArray(sellers) ? sellers : [];
-  } catch (error) {
-    console.error("Error fetching data:", error);
-  }
-
+  //console.log(featuredProducts.length);
   return (
     <main>
       <HeroBanner />
@@ -30,6 +19,7 @@ export default async function Home() {
         <div className="grid grid-cols-1 gap-small md:grid-cols-4">
           {featuredProducts.length > 0 ? (
             featuredProducts.map((product) => {
+              console.log(product);
               return <FeaturedProduct product={product} key={product._id} />;
             })
           ) : (

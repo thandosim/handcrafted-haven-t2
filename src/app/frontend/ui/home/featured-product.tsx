@@ -1,4 +1,4 @@
-import { Product } from "@/app/lib/definitions";
+import { Product } from "../../lib/definitions";
 import Image from "next/image";
 
 export default function FeaturedProduct({ product }: { product: Product }) {
@@ -7,7 +7,7 @@ export default function FeaturedProduct({ product }: { product: Product }) {
       <div className="bg-white shadow-sm overflow-hidden hover:shadow-md transition-all duration-300 transform hover:-translate-y-2 group cursor-pointer">
         <div className="relative overflow-hidden">
           <Image
-            src={product.images[0].url}
+            src="https://img.freepik.com/photos-gratuite/poupee-vaudou-poignardant-main-plat_23-2149514254.jpg?semt=ais_hybrid&w=740&q=80"
             width={1000}
             height={500}
             alt={product.title}

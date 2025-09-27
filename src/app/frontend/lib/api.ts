@@ -7,7 +7,7 @@ export async function fetchFeaturedProduct() {
         await new Promise(resolve => setTimeout(resolve, 2000));
         if (res.ok) {
             const data = await res.json();
-            return data;
+             return data.products;
         } else {
             throw Error(await res.text());
         }
@@ -21,7 +21,7 @@ export async function fetchFeaturedSellers() {
         const res = await fetch(`${baseUrl}/sellers?limit=8`);
         if (res.ok) {
             const data = await res.json();
-            return data;
+            return data.sellers;
         } else {
             throw Error(await res.text());
         }

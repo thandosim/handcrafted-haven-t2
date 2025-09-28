@@ -1,29 +1,31 @@
 // app/api/health/route.ts
 import { NextResponse } from "next/server";
-import { connectDB, mongoose } from "@/lib/db";
+import clientPromise from "@/lib/mongodb";
 
 export async function GET() {
   try {
-    await connectDB();
+    const client = await clientPromise;
+    const db = client.db("admin"); // use admin DB for server commands
+    const status = await db.command({ ping: 1 });
 
-    // Check MongoDB server status
-    if (!mongoose.connection.db) {
-      throw new Error("MongoDB connection is not established.");
-    }
-    const status = await mongoose.connection.db.admin().serverStatus();
-
-    return NextResponse.json({
-      status: "healthy",
-      timestamp: new Date().toISOString(),
-      database: "connected",
-      mongoStatus: status.ok ? "ok" : "not ok"
-    }, { status: 200 });
+    return NextResponse.json(
+      {
+        status: "healthy",
+        timestamp: new Date().toISOString(),
+        database: "connected",
+        mongoStatus: status.ok ? "ok" : "not ok",
+      },
+      { status: 200 }
+    );
   } catch (error: unknown) {
-    return NextResponse.json({
-      status: "unhealthy",
-      timestamp: new Date().toISOString(),
-      database: "disconnected",
-      error: error instanceof Error ? error.message : String(error)
-    }, { status: 503 });
+    return NextResponse.json(
+      {
+        status: "unhealthy",
+        timestamp: new Date().toISOString(),
+        database: "disconnected",
+        error: error instanceof Error ? error.message : String(error),
+      },
+      { status: 503 }
+    );
   }
 }

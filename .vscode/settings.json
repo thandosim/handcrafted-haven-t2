@@ -1,3 +1,4 @@
 {
-    "CodeGPT.apiKey": "Anthropic"
+    "CodeGPT.apiKey": "Anthropic",
+    "postman.settings.dotenv-detection-notification-visibility": false
 }

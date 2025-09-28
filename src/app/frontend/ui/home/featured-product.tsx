@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { Product } from "../../lib/definitions";
+=======
+import { Product } from "@/app/frontend/lib/definitions";
+>>>>>>> f5cc881f8cf6969c159c33f887e459889cb25a60
 import Image from "next/image";
 
 export default function FeaturedProduct({ product }: { product: Product }) {
@@ -34,7 +38,7 @@ export default function FeaturedProduct({ product }: { product: Product }) {
 
           <h3 className="font-bold text-gray-900 mb-2">{product.title}</h3>
 
-          <p className="text-xs text-gray-500 mb-3">by Luna's Fiber Arts</p>
+          <p className="text-xs text-gray-500 mb-3">by Luna&apos;s Fiber Arts</p>
 
           <div className="flex items-center justify-end">
             <div className="flex items-baseline space-x-1">

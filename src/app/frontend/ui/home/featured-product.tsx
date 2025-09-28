@@ -7,7 +7,7 @@ export default function FeaturedProduct({ product }: { product: Product }) {
       <div className="bg-white shadow-sm overflow-hidden hover:shadow-md transition-all duration-300 transform hover:-translate-y-2 group cursor-pointer">
         <div className="relative overflow-hidden">
           <Image
-            src={product.images[0].url}
+            src="https://img.freepik.com/photos-gratuite/poupee-vaudou-poignardant-main-plat_23-2149514254.jpg?semt=ais_hybrid&w=740&q=80"
             width={1000}
             height={500}
             alt={product.title}
@@ -34,7 +34,9 @@ export default function FeaturedProduct({ product }: { product: Product }) {
 
           <h3 className="font-bold text-gray-900 mb-2">{product.title}</h3>
 
-          <p className="text-xs text-gray-500 mb-3">by Luna&apos;s Fiber Arts</p>
+          <p className="text-xs text-gray-500 mb-3">
+            by Luna&apos;s Fiber Arts
+          </p>
 
           <div className="flex items-center justify-end">
             <div className="flex items-baseline space-x-1">

@@ -4,8 +4,8 @@ export default function Logo() {
   return (
     <Image
       src="/logo-handcrafted.webp"
-      width={100}
-      height={50}
+      width={60}
+      height={60}
       alt="Logo of application"
       className="z-40 p-xsmall"
       layout="intrinsic"

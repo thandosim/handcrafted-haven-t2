@@ -19,7 +19,6 @@ export default async function Home() {
         <div className="grid grid-cols-1 gap-small md:grid-cols-4">
           {featuredProducts.length > 0 ? (
             featuredProducts.map((product) => {
-              console.log(product);
               return <FeaturedProduct product={product} key={product._id} />;
             })
           ) : (

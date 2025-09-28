@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-import { Seller } from "../../lib/definitions";
 import Image from "next/image";
-=======
 import { Seller } from "@/app/frontend/lib/definitions";
->>>>>>> f5cc881f8cf6969c159c33f887e459889cb25a60
 
 export default function CardFeaturedSeller({ seller }: { seller: Seller }) {
   return (

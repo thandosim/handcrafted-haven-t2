@@ -11,11 +11,7 @@ import "swiper/css/pagination";
 // import required modules
 import { Autoplay, Pagination } from "swiper/modules";
 import CardFeaturedSeller from "./card-featured-seller";
-<<<<<<< HEAD
-import { Seller } from "../../lib/definitions";
-=======
 import { Seller } from "@/app/frontend/lib/definitions";
->>>>>>> f5cc881f8cf6969c159c33f887e459889cb25a60
 
 export default function SwiperSellers({ sellers }: { sellers: Seller[] }) {
   return (

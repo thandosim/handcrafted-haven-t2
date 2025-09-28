@@ -1,4 +1,9 @@
-const baseUrl = 'http://localhost:3000/api'
+// const baseUrl = 'http://localhost:3000/api'
+const baseUrl =
+  process.env.NODE_ENV === "production"
+    ? `${process.env.APP_URL}/api`
+    : "http://localhost:3000/api";
+
 
 export async function fetchFeaturedProduct() {
     try {

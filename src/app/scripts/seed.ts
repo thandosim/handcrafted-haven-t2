@@ -1,15 +1,15 @@
 import mongoose from "mongoose";
-import { users, sellers, products, cartData, orderData, reviewData } from "../../models/seed-data";
+import { users, sellers, products, cartData, orderData, reviewData } from "../../models/seed-data.js";
 
 // Import your models
-import { Seller } from "../../models/Seller";
-import { Cart } from "../../models/Cart";
-import User from "../../models/User";
-import Product from "../../models/Products";
-import Order from "../../models/Order";
-import Review from "../../models/Review";
+import { Seller } from "../../models/Seller.js";
+import { Cart } from "../../models/Cart.js";
+import User from "../../models/User.js";
+import Product from "../../models/Products.js";
+import Order from "../../models/Order.js";
+import Review from "../../models/Review.js";
 
-const MONGO_URI = "mongodb://127.0.0.1:27017/handcrafted-haven";
+const MONGO_URI = "mongodb+srv://thando:mongo@cluster0.dji6uht.mongodb.net/handcrafted-haven";
 
 async function seed() {
   try {
@@ -30,8 +30,8 @@ async function seed() {
     await User.insertMany(users);
     await Seller.insertMany(sellers);
     await Product.insertMany(products);
-    await Cart.insertMany(cartData);
-    await Order.insertMany([orderData]);
+    // await Cart.insertMany(cartData);
+    // await Order.insertMany([orderData]);
     await Review.insertMany(reviewData);
 
     console.log("🌱 Database seeded successfully!");

@@ -4,6 +4,7 @@ import { requireAuth } from "@/lib/auth";
 import { connectDB } from "@/lib/db";
 import Product from "@/models/Products";
 import { z } from "zod";
+import Seller from "@/models/Seller";
 
 const productUpdateSchema = z.object({
   id: z.string().min(1), // Add ID to the schema since we'll get it from body

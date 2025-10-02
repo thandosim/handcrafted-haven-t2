@@ -26,6 +26,13 @@ const sellerSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    slug: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+      lowercase: true,
+    },
     createdAt: {
       type: Date,
       default: Date.now,

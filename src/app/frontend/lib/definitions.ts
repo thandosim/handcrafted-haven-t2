@@ -30,10 +30,11 @@ export interface Seller {
   name: string;
   email: string;
   avatar: string;
-  cart: [{
+  slug: string; // 👈 used for dynamic routing (/seller/[slug])
+  cart: {
     productId: string;
     qty: string;
     addedAt: string;
-  }];
+  }[];
   createdAt: number;
 }

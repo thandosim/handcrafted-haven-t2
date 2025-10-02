@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 import { config } from "@/lib/config";
+import dotenv from "dotenv";
+dotenv.config({ path: ".env.local" });
 
 if (!config.mongodbUri) {
   throw new Error("❌ MONGODB_URI is not defined in your environment variables");

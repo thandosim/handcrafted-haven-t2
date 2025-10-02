@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import { users, sellers, products, cartData, orderData, reviewData } from "../../models/seed-data.js";
 
 // Import your models
-import { Seller } from "../../models/Seller.js";
+import Seller from "../../models/Seller.js";
 import { Cart } from "../../models/Cart.js";
 import User from "../../models/User.js";
 import Product from "../../models/Products.js";

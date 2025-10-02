@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { requireAuth } from "@/lib/auth";
 import { connectDB } from "@/lib/db";
-import User from "@/models/User";
+import Seller from "@/models/Seller";
 import { z } from "zod";
 
 const sellerSchema = z.object({
@@ -12,7 +12,7 @@ const sellerSchema = z.object({
 export async function GET() {
   try {
     await connectDB();
-    const sellers = await User.find({ role: "seller" }).lean();
+    const sellers = await Seller.find({ role: "seller" }).lean();
     return NextResponse.json({ sellers }, { status: 200 });
   } catch (err: unknown) {
   const errorMessage = err instanceof Error ? err.message : "Server error";
@@ -31,10 +31,10 @@ export async function POST(req: Request) {
     if (!parsed.success) return NextResponse.json({ error: parsed.error.format() }, { status: 422 });
 
     await connectDB();
-    const exists = await User.findOne({ email: parsed.data.email });
+    const exists = await Seller.findOne({ email: parsed.data.email });
     if (exists) return NextResponse.json({ error: "Email already exists" }, { status: 409 });
 
-    const seller = await User.create({ ...parsed.data, role: "seller" });
+    const seller = await Seller.create({ ...parsed.data, role: "seller" });
     return NextResponse.json({ seller }, { status: 201 });
   } catch (err: unknown) {
   const errorMessage = err instanceof Error ? err.message : "Server error";

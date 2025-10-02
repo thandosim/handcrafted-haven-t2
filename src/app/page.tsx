@@ -7,7 +7,7 @@ import SwiperSellers from "./frontend/ui/home/swiper-sellers";
 export default async function Home() {
   let featuredProducts: Product[] = await fetchFeaturedProduct();
   let featuredSellers: Seller[] = await fetchFeaturedSellers();
-  console.log("featuredProducts : ", featuredProducts);
+  // console.log("featuredProducts : ", featuredProducts);
   //console.log(featuredProducts.length);
   return (
     <main>

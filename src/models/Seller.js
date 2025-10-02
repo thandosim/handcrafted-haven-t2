@@ -38,4 +38,5 @@ const sellerSchema = new mongoose.Schema(
   { versionKey: false }
 );
 
-export const Seller = mongoose.model("Seller", sellerSchema);
+const Seller = mongoose.model("Seller", sellerSchema);
+export default Seller;

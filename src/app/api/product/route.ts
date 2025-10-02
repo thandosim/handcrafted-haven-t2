@@ -56,6 +56,7 @@ export async function GET(req: Request) {
   const products = await Product.find(filter)
     .skip((page - 1) * limit)
     .limit(limit)
+    .populate("sellerId", "name avatar slug") // 👈 this is key
     .lean();
   
   const total = await Product.countDocuments(filter);

@@ -11,7 +11,7 @@ const variantSchema = new Schema({
 });
 
 const ProductSchema = new Schema({
-  sellerId: { type: Schema.Types.ObjectId, ref: "User", index: true },
+  sellerId: { type: Schema.Types.ObjectId, ref: "Seller", index: true },
   title: String,
   slug: { type: String, unique: true, index: true },
   description: String,

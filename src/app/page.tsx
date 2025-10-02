@@ -14,7 +14,7 @@ export default async function Home() {
       <HeroBanner />
       <section className="p-small md:p-massive">
         <h2 className="text-2xl text-primary text-bold mb-small font-family-lusitana font-bold">
-          Featured Products
+          Featured Productss
         </h2>
         <div className="grid grid-cols-1 gap-small md:grid-cols-4">
           {featuredProducts.length > 0 ? (

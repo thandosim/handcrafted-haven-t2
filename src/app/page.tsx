@@ -3,6 +3,7 @@ import FeaturedProduct from "./frontend/ui/home/featured-product";
 import { fetchFeaturedProduct, fetchFeaturedSellers } from "./frontend/lib/api";
 import { Product, Seller } from "./frontend/lib/definitions";
 import SwiperSellers from "./frontend/ui/home/swiper-sellers";
+import Link from "next/link";
 
 export default async function Home() {
   let featuredProducts: Product[] = await fetchFeaturedProduct();
@@ -18,9 +19,15 @@ export default async function Home() {
         </h2>
         <div className="grid grid-cols-1 gap-small md:grid-cols-4">
           {featuredProducts.length > 0 ? (
-            featuredProducts.map((product) => {
-              return <FeaturedProduct product={product} key={product._id} />;
-            })
+            featuredProducts.map((product) => (
+              <Link
+                href={`/product/${product.slug}`}
+                key={product._id}
+                className="block hover:shadow-md transition-shadow duration-200"
+              >
+                <FeaturedProduct product={product} />
+              </Link>
+            ))
           ) : (
             <div className="col-span-full text-center text-gray-500 py-8">
               <p>No featured products available at the moment.</p>

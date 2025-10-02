@@ -4,6 +4,8 @@ import Product from "@/models/Products";
 import { productCreateSchema } from "@/lib/validation";
 import { requireAuth } from "@/lib/auth";
 import slugify from "slugify";
+import Seller from "@/models/Seller"; // 👈 this is essential
+
 
 export async function POST(req: Request) {
   const payload = requireAuth(req);

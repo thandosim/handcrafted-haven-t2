@@ -2,10 +2,12 @@ import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import Seller from "@/models/Seller";
 
-export async function GET(_: Request, { params }: { params: { slug: string } }) {
+export async function GET(_: Request, { params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+
   try {
     await connectDB();
-    const seller = await Seller.findOne({ slug: params.slug }).lean();
+    const seller = await Seller.findOne({ slug }).lean();
 
     if (!seller) {
       return NextResponse.json({ error: "Seller not found" }, { status: 404 });

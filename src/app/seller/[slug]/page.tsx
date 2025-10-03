@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 
 export default async function SellerPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const res = await fetch(`${process.env.BASE_URL}/api/seller/${slug}`);
+  const res = await fetch(`${process.env.BASE_URL}/api/sellers/${slug}`);
   if (!res.ok) return notFound();
 
   const { seller } = await res.json();

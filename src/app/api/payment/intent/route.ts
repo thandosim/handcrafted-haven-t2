@@ -7,8 +7,8 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: "2025-08
 
 export async function POST(req: Request) {
   try {
-    const payload = requireAuth(req);
-    if (!payload) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    // const payload = requireAuth(req);
+    // if (!payload) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const body = await req.json();
     await connectDB();
@@ -18,19 +18,19 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Invalid amount" }, { status: 400 });
     }
 
-    const intent = await stripe.paymentIntents.create({
-      amount: amountCents,
-      currency: body.currency || "usd",
-      metadata: { 
-        userId: typeof payload.sub === "string" || typeof payload.sub === "number" ? payload.sub : null,
-        cart: JSON.stringify(body.cart || [])
-      },
-    });
+    // const intent = await stripe.paymentIntents.create({
+    //   amount: amountCents,
+    //   currency: body.currency || "usd",
+    //   metadata: { 
+    //     userId: typeof payload.sub === "string" || typeof payload.sub === "number" ? payload.sub : null,
+    //     cart: JSON.stringify(body.cart || [])
+    //   },
+    // });
 
-    return NextResponse.json(
-      { clientSecret: intent.client_secret, id: intent.id },
-      { status: 200 }
-    );
+    // return NextResponse.json(
+    //   { clientSecret: intent.client_secret, id: intent.id },
+    //   { status: 200 }
+    // );
   } catch (err: unknown) {
   const errorMessage = err instanceof Error ? err.message : "Server error";
   return NextResponse.json({ error: errorMessage }, { status: 500 });

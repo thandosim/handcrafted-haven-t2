@@ -7,34 +7,34 @@ import slugify from "slugify";
 import Seller from "@/models/Seller"; // 👈 this is essential
 
 
-export async function POST(req: Request) {
-  const payload = requireAuth(req);
-  if (!payload) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  if (typeof payload !== "object" || !("role" in payload)) {
-    return NextResponse.json({ error: "Invalid token payload" }, { status: 400 });
-  }
-  if (payload.role !== "seller") return NextResponse.json({ error: "Not a seller" }, { status: 403 });
+// export async function POST(req: Request) {
+//   const payload = requireAuth(req);
+//   if (!payload) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+//   if (typeof payload !== "object" || !("role" in payload)) {
+//     return NextResponse.json({ error: "Invalid token payload" }, { status: 400 });
+//   }
+//   if (payload.role !== "seller") return NextResponse.json({ error: "Not a seller" }, { status: 403 });
 
-  const body = await req.json();
-  const parsed = productCreateSchema.safeParse(body);
-  if (!parsed.success) return NextResponse.json({ error: parsed.error.format() }, { status: 422 });
+//   const body = await req.json();
+//   const parsed = productCreateSchema.safeParse(body);
+//   if (!parsed.success) return NextResponse.json({ error: parsed.error.format() }, { status: 422 });
 
-  await connectDB();
-  const slugBase = slugify(parsed.data.title, { lower: true, strict: true }).slice(0, 100);
-  let slug = slugBase;
-  let i = 0;
-  while (await Product.findOne({ slug })) {
-    i += 1; slug = `${slugBase}-${i}`;
-  }
+//   await connectDB();
+//   const slugBase = slugify(parsed.data.title, { lower: true, strict: true }).slice(0, 100);
+//   let slug = slugBase;
+//   let i = 0;
+//   while (await Product.findOne({ slug })) {
+//     i += 1; slug = `${slugBase}-${i}`;
+//   }
 
-  const product = await Product.create({
-    sellerId: payload.sub,
-    ...parsed.data,
-    slug,
-    status: "draft",
-  });
-  return NextResponse.json({ product }, { status: 201 });
-}
+//   const product = await Product.create({
+//     sellerId: payload.sub,
+//     ...parsed.data,
+//     slug,
+//     status: "draft",
+//   });
+//   return NextResponse.json({ product }, { status: 201 });
+// }
 
 export async function GET(req: Request) {
   await connectDB();

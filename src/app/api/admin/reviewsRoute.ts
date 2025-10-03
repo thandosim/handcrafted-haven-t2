@@ -8,8 +8,8 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  const payload = requireAuth(req);
-  if (!payload || payload.role !== "admin") return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  // const payload = requireAuth(req);
+  // if (!payload || payload.role !== "admin") return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   
   const body = await req.json();
   const { moderatedStatus } = body;

@@ -10,12 +10,12 @@ const cartItemSchema = z.object({
 });
 
 export async function GET(req: Request) {
-  const payload = requireAuth(req);
-  if (!payload) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  // const payload = requireAuth(req);
+  // if (!payload) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  await connectDB();
-  const user = await User.findById(payload.sub).populate("cart.productId").lean();
-  return NextResponse.json({ cart: user && "cart" in user ? user.cart : [] }, { status: 200 });
+//   await connectDB();
+//   const user = await User.findById(payload.sub).populate("cart.productId").lean();
+//   return NextResponse.json({ cart: user && "cart" in user ? user.cart : [] }, { status: 200 });
 }
 
 export async function POST(req: Request) {

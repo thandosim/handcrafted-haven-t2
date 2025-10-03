@@ -12,45 +12,45 @@ const reviewSchema = z.object({
   text: z.string().min(10),
 });
 
-export async function POST(req: Request) {
-  const payload = requireAuth(req);
-  if (!payload) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+// export async function POST(req: Request) {
+//   const payload = requireAuth(req);
+//   if (!payload) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const body = await req.json();
-  const parsed = reviewSchema.safeParse(body);
-  if (!parsed.success)
-    return NextResponse.json({ error: parsed.error.format() }, { status:422 });
+//   const body = await req.json();
+//   const parsed = reviewSchema.safeParse(body);
+//   if (!parsed.success)
+//     return NextResponse.json({ error: parsed.error.format() }, { status:422 });
 
-  await connectDB();
+//   await connectDB();
   
-  // Check if user has purchased the product
-  const bought = await Order.exists({ 
-    buyerId: payload.sub, 
-    "items.productId": parsed.data.productId,
-    status: { $in: ["delivered", "shipped"] }
-  });
+//   // Check if user has purchased the product
+//   const bought = await Order.exists({ 
+//     buyerId: payload.sub, 
+//     "items.productId": parsed.data.productId,
+//     status: { $in: ["delivered", "shipped"] }
+//   });
   
-  if (!bought) return NextResponse.json({ 
-    error: "Only verified buyers who purchased this product can review" 
-  }, { status: 403 });
+//   if (!bought) return NextResponse.json({ 
+//     error: "Only verified buyers who purchased this product can review" 
+//   }, { status: 403 });
 
-  const review = await Review.create({
-    productId: parsed.data.productId,
-    authorId: payload.sub,
-    rating: parsed.data.rating,
-    text: parsed.data.text,
-    isVerifiedBuyer: true,
-    moderatedStatus: "pending"
-  });
+//   const review = await Review.create({
+//     productId: parsed.data.productId,
+//     authorId: payload.sub,
+//     rating: parsed.data.rating,
+//     text: parsed.data.text,
+//     isVerifiedBuyer: true,
+//     moderatedStatus: "pending"
+//   });
 
-  // Update product rating aggregates
-  const product = await Product.findById(parsed.data.productId);
-  if (product) {
-    product.ratingCount += 1;
-    product.ratingSum += parsed.data.rating;
-    product.ratingAvg = product.ratingSum / product.ratingCount;
-    await product.save();
-  }
+//   // Update product rating aggregates
+//   const product = await Product.findById(parsed.data.productId);
+//   if (product) {
+//     product.ratingCount += 1;
+//     product.ratingSum += parsed.data.rating;
+//     product.ratingAvg = product.ratingSum / product.ratingCount;
+//     await product.save();
+//   }
 
-  return NextResponse.json({ review }, { status: 201 });
-}
+//   return NextResponse.json({ review }, { status: 201 });
+// }

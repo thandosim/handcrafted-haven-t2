@@ -8,8 +8,8 @@ import Link from "next/link";
 export default async function Home() {
   let featuredProducts: Product[] = await fetchFeaturedProduct();
   let featuredSellers: Seller[] = await fetchFeaturedSellers();
-  let deb = await fetchFeaturedSellers();
-  console.log("featuredSellers : ", deb);
+  // let deb = await fetchFeaturedSellers();
+  // console.log("featuredSellers : ", deb);
   //console.log(featuredProducts.length);
   return (
     <main>

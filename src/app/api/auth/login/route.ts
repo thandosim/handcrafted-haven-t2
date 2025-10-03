@@ -83,7 +83,8 @@ export async function POST(req: Request) {
 
   const token = signToken({ sub: String(user._id), role: user.role });
   const res = NextResponse.json({ 
-    user: { id: user._id, name: user.name, email: user.email, role: user.role } 
+    user: { id: user._id, name: user.name, email: user.email, role: user.role }, 
+    token
   }, { status: 200 });
   
   res.headers.set("Set-Cookie", 

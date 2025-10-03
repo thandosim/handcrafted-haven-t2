@@ -30,7 +30,7 @@ const createOpenAPISpec = () => {
       { name: 'Authentication', description: 'User authentication endpoints' },
       { name: 'Users', description: 'User management endpoints' },
       { name: 'Sellers', description: 'Seller management endpoints' },
-      { name: 'Products', description: 'Product management endpoints' },
+      { name: 'Product', description: 'Product management endpoints' },
       { name: 'Cart', description: 'Shopping cart endpoints' },
       { name: 'Orders', description: 'Order management endpoints' },
       { name: 'Reviews', description: 'Product review endpoints' },
@@ -416,9 +416,9 @@ const createOpenAPISpec = () => {
       },
 
       // Product endpoints
-      '/api/products': {
+      '/api/product': {
         get: {
-          tags: ['Products'],
+          tags: ['Product'],
           summary: 'Get all products with filtering',
           parameters: [
             {
@@ -462,7 +462,7 @@ const createOpenAPISpec = () => {
                   schema: {
                     type: 'object',
                     properties: {
-                      products: {
+                      product: {
                         type: 'array',
                         items: { $ref: '#/components/schemas/Product' }
                       },
@@ -476,7 +476,7 @@ const createOpenAPISpec = () => {
           }
         },
         post: {
-          tags: ['Products'],
+          tags: ['Product'],
           summary: 'Create a new product (seller only)',
           security: [{ bearerAuth: [] }],
           requestBody: {
@@ -507,9 +507,9 @@ const createOpenAPISpec = () => {
           }
         }
       },
-      '/api/products/{slug}': {
+      '/api/product/{slug}': {
         get: {
-          tags: ['Products'],
+          tags: ['Product'],
           summary: 'Get product by slug',
           parameters: [
             {
@@ -537,7 +537,7 @@ const createOpenAPISpec = () => {
           }
         }
       },
-      '/api/seller/products': {
+      '/api/sellers/products': {
         get: {
           tags: ['Products'],
           summary: 'Get seller products',
@@ -563,7 +563,7 @@ const createOpenAPISpec = () => {
           }
         },
         patch: {
-          tags: ['Products'],
+          tags: ['Product'],
           summary: 'Update product (seller only)',
           security: [{ bearerAuth: [] }],
           requestBody: {
@@ -605,7 +605,7 @@ const createOpenAPISpec = () => {
           }
         }
       },
-      '/api/seller/products/{id}': {
+      '/api/sellers/products/{id}': {
         get: {
           tags: ['Products'],
           summary: 'Get seller product by ID',
@@ -1053,7 +1053,7 @@ const createOpenAPISpec = () => {
           }
         }
       },
-      '/api/products/{id}/reviews': {
+      '/api/product/{id}/reviews': {
         post: {
           tags: ['Reviews'],
           summary: 'Create review for a product',

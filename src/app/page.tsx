@@ -8,7 +8,7 @@ export default async function Home() {
   let featuredProducts: Product[] = await fetchFeaturedProduct();
   let featuredSellers: Seller[] = await fetchFeaturedSellers();
 
-  //console.log(featuredProducts.length);
+  console.log(featuredProducts.length);
   return (
     <main>
       <HeroBanner />

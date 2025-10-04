@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import HeroBanner from "./frontend/ui/home/hero";
 import FeaturedProduct from "./frontend/ui/home/featured-product";
 import { fetchFeaturedProduct, fetchFeaturedSellers } from "./frontend/lib/api";
@@ -5,21 +6,10 @@ import { Product, Seller } from "./frontend/lib/definitions";
 import SwiperSellers from "./frontend/ui/home/swiper-sellers";
 
 export default async function Home() {
-  let featuredProducts: Product[] = [];
-  let featuredSellers: Seller[] = [];
+  const featuredProducts: Product[] = await fetchFeaturedProduct();
+  const featuredSellers: Seller[] = await fetchFeaturedSellers();
 
-  try {
-    const [products, sellers] = await Promise.all([
-      fetchFeaturedProduct(),
-      fetchFeaturedSellers(),
-    ]);
-
-    featuredProducts = Array.isArray(products) ? products : [];
-    featuredSellers = Array.isArray(sellers) ? sellers : [];
-  } catch (error) {
-    console.error("Error fetching data:", error);
-  }
-
+  //console.log(featuredProducts.length);
   return (
     <main>
       <HeroBanner />

@@ -30,7 +30,7 @@ let clientPromise: Promise<MongoClient>;
 
 // Add a type-safe declaration for the global cache
 declare global {
-  // eslint-disable-next-line no-var
+   
   var _mongoClientPromise: Promise<MongoClient> | undefined;
 }
 

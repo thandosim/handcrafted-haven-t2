@@ -27,17 +27,13 @@ export type Product = {
 
 export interface Seller {
   _id: string;
-  userId: string;
-  displayName: string;
-  imageUrl: string;
-  bio: string;
-  story: string;
-  socialLinks: {
-    ig: string;
-    fb: string;
-    web: string;
-  };
-  badges: string[];
-  ratingAvg: number;
-  ratingCount: number;
+  name: string;
+  email: string;
+  avatar: string;
+  cart: [{
+    productId: string;
+    qty: string;
+    addedAt: string;
+  }];
+  createdAt: number;
 }

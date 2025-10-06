@@ -22,7 +22,22 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: process.env.NODE_ENV === "production",
   },
   images: {
-    domains: ["example.com"], // Add any other trusted domains here
+    domains: ["example.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "plus.unsplash.com",
+        pathname: "**",
+      },{
+        protocol: "https",
+        hostname: "images.unsplash.com",
+        pathname: "**",
+      },{
+        protocol: "https",
+        hostname: "images.pexels.com",
+        pathname: "**",
+      },
+    ], // Add any other trusted domains here
   },
 };
 

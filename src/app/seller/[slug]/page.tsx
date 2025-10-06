@@ -61,10 +61,24 @@ export default function SellerPage() {
 
       {/* Future: Display seller’s products here */}
       <section className="mt-large">
+        <section className="mt-large">
         <h2 className="text-xl font-bold mb-4">Featured Products</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Map seller’s products here once available */}
+            {/* TODO: Display products for this seller here.
+                Once the API supports filtering by sellerId,
+                fetch products and map them into cards like on the homepage.
+                Each card should link to /product/[slug] and show image, title, and price.
+            */}
+            <div className="col-span-full text-center text-gray-400 py-12 border border-dashed border-gray-300 rounded-lg">
+            <p className="text-sm">
+                Product cards will appear here once seller-specific filtering is available.
+            </p>
+            <p className="text-xs mt-2 italic">
+                (Waiting on API update to support sellerId query param)
+            </p>
+            </div>
         </div>
+        </section>
       </section>
     </main>
   );

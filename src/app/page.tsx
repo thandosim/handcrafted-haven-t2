@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import HeroBanner from "./frontend/ui/home/hero";
 import FeaturedProduct from "./frontend/ui/home/featured-product";
 import { fetchFeaturedProduct, fetchFeaturedSellers } from "./frontend/lib/api";
@@ -5,8 +6,8 @@ import { Product, Seller } from "./frontend/lib/definitions";
 import SwiperSellers from "./frontend/ui/home/swiper-sellers";
 
 export default async function Home() {
-  let featuredProducts: Product[] = await fetchFeaturedProduct();
-  let featuredSellers: Seller[] = await fetchFeaturedSellers();
+  const featuredProducts: Product[] = await fetchFeaturedProduct();
+  const featuredSellers: Seller[] = await fetchFeaturedSellers();
 
   //console.log(featuredProducts.length);
   return (

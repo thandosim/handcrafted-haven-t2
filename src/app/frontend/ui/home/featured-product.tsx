@@ -1,3 +1,4 @@
+// featured-product.tsx
 import { Product } from "@/app/frontend/lib/definitions";
 import Image from "next/image";
 
@@ -7,10 +8,11 @@ export default function FeaturedProduct({ product }: { product: Product }) {
       <div className="bg-white shadow-sm overflow-hidden hover:shadow-md transition-all duration-300 transform hover:-translate-y-2 group cursor-pointer">
         <div className="relative overflow-hidden">
           <Image
-            src="https://img.freepik.com/photos-gratuite/poupee-vaudou-poignardant-main-plat_23-2149514254.jpg?semt=ais_hybrid&w=740&q=80"
+            src={product.images[0]?.url || "/placeholder.jpg"}
             width={1000}
             height={500}
-            alt={product.title}
+            alt={product.images[0]?.alt || product.title}
+            unoptimized // Added to bypass next.js image optimization for faster image loading
             className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
           />
         </div>
@@ -18,24 +20,24 @@ export default function FeaturedProduct({ product }: { product: Product }) {
         <div className="p-4">
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs text-primary font-medium">
-              {product.category}
+              {product.tags[0] || "Handmade"}
             </span>
             <div className="flex items-center space-x-1">
               <div className="flex text-yellow-400">
-                <i className="fas fa-star text-xs"></i>
-                <i className="fas fa-star text-xs"></i>
-                <i className="fas fa-star text-xs"></i>
-                <i className="fas fa-star text-xs"></i>
-                <i className="fas fa-star text-xs"></i>
+                {[...Array(5)].map((_, i) => (
+                  <i key={i} className="fas fa-star text-xs"></i>
+                ))}
               </div>
-              <span className="text-xs text-gray-500">(4.7)</span>
+              <span className="text-xs text-gray-500">
+                ({product.ratingAvg.toFixed(1)})
+              </span>
             </div>
           </div>
 
           <h3 className="font-bold text-gray-900 mb-2">{product.title}</h3>
 
           <p className="text-xs text-gray-500 mb-3">
-            by Luna&apos;s Fiber Arts
+            by {product.sellerId || "Artisan"}
           </p>
 
           <div className="flex items-center justify-end">

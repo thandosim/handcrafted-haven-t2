@@ -9,7 +9,7 @@ export async function fetchFeaturedProduct() {
     try {
         const res = await fetch(`${baseUrl}/product?limit=8`);
         //Simulate API Call
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        // await new Promise(resolve => setTimeout(resolve, 2000)); // commented to resolve image load timeout issue
         if (res.ok) {
             const data = await res.json();
              return data.products;
@@ -32,5 +32,6 @@ export async function fetchFeaturedSellers() {
         }
     } catch (error) {
         console.error(error);
+        return []; // Return an empty array in case of error
     }
 }

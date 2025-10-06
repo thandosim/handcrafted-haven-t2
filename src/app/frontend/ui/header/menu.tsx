@@ -2,17 +2,18 @@
 
 import Link from "next/link";
 import styles from "./header.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
+import LogoutButton from "./LogoutButton"; 
 
 const navlinks = [
   { name: "Home", href: "/" },
   { name: "Shop", href: "/shop" },
   { name: "Sellers", href: "/sellers" },
   { name: "About", href: "/about" },
-  { name: "contact", href: "/contact" },
+  { name: "Contact", href: "/contact" },
 ];
 
 const accountlinks = [
@@ -23,10 +24,28 @@ const accountlinks = [
 export default function Menu() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   function handleToggle() {
     setIsOpen(!isOpen);
   }
+
+  useEffect(() => {
+    async function checkAuth() {
+      try {
+        const res = await fetch("/api/users/me");
+        if (res.ok) {
+          setIsLoggedIn(true);
+        } else {
+          setIsLoggedIn(false);
+        }
+      } catch {
+        setIsLoggedIn(false);
+      }
+    }
+
+    checkAuth();
+  }, []);
 
   return (
     <>
@@ -34,7 +53,7 @@ export default function Menu() {
         href="#"
         className={`${styles.menu} ${isOpen ? styles.open : ""} md:hidden`}
         aria-label="Menu"
-        onClick={() => handleToggle()}
+        onClick={handleToggle}
       ></Link>
       <nav
         className={`${
@@ -51,32 +70,34 @@ export default function Menu() {
             className="mx-auto"
           />
         </div>
+
         <ul className="flex flex-col md:flex-row md:flex-wrap md:justify-center">
-          {navlinks.map((link) => {
-            return (
-              <li key={link.name}>
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  className={clsx(
-                    "block p-small text-gray-500 text-center hover:bg-accent2 hover:text-gray-900 border-b-1 border-gray-100  md:border-none md:px-medium",
-                    {
-                      "bg-accent2 text-gray-900": pathname === link.href,
-                    }
-                  )}
-                >
-                  {link.name}
-                </Link>
-              </li>
-            );
-          })}
+          {navlinks.map((link) => (
+            <li key={link.name}>
+              <Link
+                href={link.href}
+                className={clsx(
+                  "block p-small text-gray-500 text-center hover:bg-accent2 hover:text-gray-900 border-b-1 border-gray-100 md:border-none md:px-medium",
+                  {
+                    "bg-accent2 text-gray-900": pathname === link.href,
+                  }
+                )}
+              >
+                {link.name}
+              </Link>
+            </li>
+          ))}
         </ul>
-        <ul className="flex flex-col md:flex-row  md:flex-wrap">
-          {accountlinks.map((link) => {
-            return (
+
+        <ul className="flex flex-col md:flex-row md:flex-wrap">
+          {isLoggedIn ? (
+            <li>
+              <LogoutButton />
+            </li>
+          ) : (
+            accountlinks.map((link) => (
               <li key={link.name}>
                 <Link
-                  key={link.name}
                   href={link.href}
                   className={clsx(
                     "block p-small text-gray-500 text-center hover:bg-accent2 hover:text-gray-900 border-b-1 border-gray-100 md:border-none md:px-medium",
@@ -88,8 +109,8 @@ export default function Menu() {
                   {link.name}
                 </Link>
               </li>
-            );
-          })}
+            ))
+          )}
         </ul>
       </nav>
     </>

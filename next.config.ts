@@ -21,15 +21,24 @@ const nextConfig: NextConfig = {
     // Ignore ESLint during builds if needed
     ignoreDuringBuilds: process.env.NODE_ENV === "production",
   },
-
   images: {
+    domains: ["example.com"],
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: '**',
-      }
-    ]
-  }
+        protocol: "https",
+        hostname: "plus.unsplash.com",
+        pathname: "**",
+      },{
+        protocol: "https",
+        hostname: "images.unsplash.com",
+        pathname: "**",
+      },{
+        protocol: "https",
+        hostname: "images.pexels.com",
+        pathname: "**",
+      },
+    ], // Add any other trusted domains here
+  },
 };
 
 export default nextConfig;

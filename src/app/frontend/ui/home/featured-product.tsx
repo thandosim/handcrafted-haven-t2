@@ -1,18 +1,23 @@
 // featured-product.tsx
 import { Product } from "@/app/frontend/lib/definitions";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function FeaturedProduct({ product }: { product: Product }) {
+  const imageUrl = product.images[0]?.url?.startsWith("http")
+    ? product.images[0].url
+    : "/placeholder.jpg";
+
   return (
-    <>
+    <Link href={`/product/${product.slug}`}>
       <div className="bg-white shadow-sm overflow-hidden hover:shadow-md transition-all duration-300 transform hover:-translate-y-2 group cursor-pointer">
         <div className="relative overflow-hidden">
           <Image
-            src={product.images[0]?.url || "/placeholder.jpg"}
+            src={imageUrl}
             width={1000}
             height={500}
             alt={product.images[0]?.alt || product.title}
-            unoptimized // Added to bypass next.js image optimization for faster image loading
+            unoptimized
             className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
           />
         </div>
@@ -49,6 +54,6 @@ export default function FeaturedProduct({ product }: { product: Product }) {
           </div>
         </div>
       </div>
-    </>
+    </Link>
   );
 }

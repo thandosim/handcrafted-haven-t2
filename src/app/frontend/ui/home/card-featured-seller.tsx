@@ -1,9 +1,10 @@
 import Image from "next/image";
 import { Seller } from "@/app/frontend/lib/definitions";
+import Link from "next/link";
 
 export default function CardFeaturedSeller({ seller }: { seller: Seller }) {
   return (
-    <>
+    <Link href={`/seller/${seller.name.toLowerCase().replace(/\s+/g, "-")}`}>
       <div className="max-w-3xl mx-auto shadow-sm bg-white overflow-hidden border-1 border-gray-200 md:flex">
         <div className="overflow-hidden bg-accent2 py-small md:flex md:flex-1 md:items-center md:justify-center md:p-small">
           <Image
@@ -55,6 +56,6 @@ export default function CardFeaturedSeller({ seller }: { seller: Seller }) {
           </p> */}
         </div>
       </div>
-    </>
+    </Link>
   );
 }

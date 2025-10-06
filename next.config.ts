@@ -21,6 +21,9 @@ const nextConfig: NextConfig = {
     // Ignore ESLint during builds if needed
     ignoreDuringBuilds: process.env.NODE_ENV === "production",
   },
+  images: {
+    domains: ["example.com"], // Add any other trusted domains here
+  },
 };
 
 export default nextConfig;

@@ -25,7 +25,7 @@ export default function RegisterPage() {
 
       const data = await res.json();
       if (!res.ok) {
-        console.log("Raw error object:", data.error);
+        // console.log("Raw error object:", data.error);
 
         const friendlyMessages = extractFriendlyErrors(data.error);
         setError(friendlyMessages.join(" | "));

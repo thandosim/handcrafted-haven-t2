@@ -33,7 +33,9 @@ export default function Menu() {
   useEffect(() => {
     async function checkAuth() {
       try {
-        const res = await fetch("/api/users/me");
+        const res = await fetch("/api/users/me", {
+          credentials: "include",
+        });
         if (res.ok) {
           setIsLoggedIn(true);
         } else {

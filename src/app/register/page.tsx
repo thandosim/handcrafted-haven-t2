@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { extractFriendlyErrors } from "../frontend/lib/errorHandler";
+
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -23,7 +25,10 @@ export default function RegisterPage() {
 
       const data = await res.json();
       if (!res.ok) {
-        setError(data.error || "Registration failed");
+        console.log("Raw error object:", data.error);
+
+        const friendlyMessages = extractFriendlyErrors(data.error);
+        setError(friendlyMessages.join(" | "));
         return;
       }
 
@@ -80,7 +85,10 @@ export default function RegisterPage() {
           />
         </div>
 
-        {error && <p className="text-sm text-red-600">{error}</p>}
+        {/* {error && <p className="text-sm text-red-600">{error}</p>} */}
+        {typeof error === "string" && error && (
+          <p className="text-sm text-red-600">{error}</p>
+        )}
 
         <button
           type="submit"

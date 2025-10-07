@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
-import LogoutButton from "./LogoutButton"; 
+import LogoutButton from "./LogoutButton";
 
 const navlinks = [
   { name: "Home", href: "/" },
@@ -25,6 +25,7 @@ export default function Menu() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState<any>(null);
 
   function handleToggle() {
     setIsOpen(!isOpen);
@@ -37,12 +38,16 @@ export default function Menu() {
           credentials: "include",
         });
         if (res.ok) {
+          const data = await res.json();
           setIsLoggedIn(true);
+          setUser(data.user);
         } else {
           setIsLoggedIn(false);
+          setUser(null);
         }
       } catch {
         setIsLoggedIn(false);
+        setUser(null);
       }
     }
 
@@ -89,6 +94,24 @@ export default function Menu() {
               </Link>
             </li>
           ))}
+
+          {(!isLoggedIn || user?.role === "buyer") && (
+            <li className="relative">
+              <Link
+                href="/cart"
+                className={clsx(
+                  "block p-small text-gray-500 text-center hover:bg-accent2 hover:text-gray-900 border-b-1 border-gray-100 md:border-none md:px-medium"
+                )}
+              >
+                🛒 <span className="sr-only">Cart</span>
+                {user?.cart?.length > 0 && (
+                  <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs rounded-full px-2 py-0.5">
+                    {user.cart.length}
+                  </span>
+                )}
+              </Link>
+            </li>
+          )}
         </ul>
 
         <ul className="flex flex-col md:flex-row md:flex-wrap">

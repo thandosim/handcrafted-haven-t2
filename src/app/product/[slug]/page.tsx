@@ -1,4 +1,3 @@
-// /app/product/[slug]/page.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -6,6 +5,7 @@ import { useParams } from "next/navigation";
 import Image from "next/image";
 
 type Product = {
+  _id: string;
   title: string;
   description: string;
   price: number;
@@ -19,6 +19,9 @@ export default function ProductPage() {
   const { slug } = useParams();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
+  const [adding, setAdding] = useState(false);
+  const [added, setAdded] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchProduct() {
@@ -39,6 +42,46 @@ export default function ProductPage() {
 
     fetchProduct();
   }, [slug]);
+
+  async function handleAddToCart() {
+  if (!product?._id) return;
+  setAdding(true);
+  setError(null);
+
+  try {
+    const res = await fetch("/api/cart", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ productId: product._id, qty: 1 }),
+      credentials: "include",
+    });
+
+    const contentType = res.headers.get("content-type") || "";
+
+    if (contentType.includes("application/json")) {
+      const data = await res.json();
+      if (res.ok) {
+        setAdded(true);
+      //cosider updating cart count without reloading
+      } else {
+        const message =
+          typeof data.error === "string"
+            ? data.error
+            : "Failed to add to cart. Please try again.";
+        setError(message);
+      }
+    } else {
+      const text = await res.text(); // fallback for HTML or plain text
+      console.warn("Non-JSON response received:", text.slice(0, 100));
+      setError("You may need to log in before adding items to your cart.");
+    }
+  } catch (err) {
+    console.error("Add to cart failed:", err);
+    setError("Something went wrong. Please try again.");
+  } finally {
+    setAdding(false);
+  }
+}
 
   if (loading) return <div className="p-massive">Loading product...</div>;
   if (!product) return <div className="p-massive">Product not found.</div>;
@@ -67,13 +110,31 @@ export default function ProductPage() {
           <div className="text-lg text-primary font-bold mb-4">${product.price}</div>
           <p className="text-base text-gray-700 mb-6">{product.description}</p>
 
-          <div className="flex space-x-2">
+          <div className="flex space-x-2 mb-6">
             {product.tags.map((tag, i) => (
               <span key={i} className="px-2 py-1 bg-gray-100 text-xs rounded">
                 {tag}
               </span>
             ))}
           </div>
+
+          <button
+            onClick={handleAddToCart}
+            disabled={adding || added}
+            className={`px-4 py-2 rounded text-white transition ${
+              added
+                ? "bg-green-600 cursor-default"
+                : "bg-primary hover:bg-primary-dark"
+            }`}
+          >
+            {added ? "Added to Cart" : adding ? "Adding..." : "Add to Cart"}
+          </button>
+
+          {error && (
+            <p className="mt-2 text-sm text-red-600">
+              {error}
+            </p>
+          )}
         </div>
       </div>
     </main>

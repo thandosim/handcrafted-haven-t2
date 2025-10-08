@@ -18,6 +18,8 @@ export default function CheckoutPage() {
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [intentId, setIntentId] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [showPaymentForm, setShowPaymentForm] = useState(false);
+  const [paymentCompleted, setPaymentCompleted] = useState(false);
 
   useEffect(() => {
     async function fetchCart() {
@@ -77,7 +79,7 @@ export default function CheckoutPage() {
         if (res.ok) {
           setClientSecret(data.clientSecret);
           setIntentId(data.id);
-          setCart([]); // Clear cart after confirmation
+          setShowPaymentForm(true);
         } else {
           setError(data.error || "Failed to create payment intent.");
         }
@@ -92,6 +94,13 @@ export default function CheckoutPage() {
     } finally {
       setSubmitting(false);
     }
+  }
+
+  function handlePaymentSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    // Simulate payment success
+    setPaymentCompleted(true);
+    setCart([]);
   }
 
   if (loading) return <div className="p-massive">Loading checkout...</div>;
@@ -130,6 +139,63 @@ export default function CheckoutPage() {
             </button>
           </div>
         </>
+      ) : !paymentCompleted ? (
+        <form
+          className="mt-6 space-y-4 max-w-md mx-auto"
+          onSubmit={handlePaymentSubmit}
+        >
+          <h2 className="text-xl font-semibold mb-2">Payment Information</h2>
+          <p className="text-sm text-gray-600 mb-4">
+            Payment Intent ID: <span className="font-mono">{intentId}</span>
+          </p>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Card Number
+            </label>
+            <input
+              type="text"
+              name="cardNumber"
+              className="mt-1 block w-full border border-gray-300 rounded px-3 py-2"
+              placeholder="1234 5678 9012 3456"
+              required
+            />
+          </div>
+
+          <div className="flex gap-4">
+            <div className="flex-1">
+              <label className="block text-sm font-medium text-gray-700">
+                Expiry
+              </label>
+              <input
+                type="text"
+                name="expiry"
+                className="mt-1 block w-full border border-gray-300 rounded px-3 py-2"
+                placeholder="MM/YY"
+                required
+              />
+            </div>
+            <div className="flex-1">
+              <label className="block text-sm font-medium text-gray-700">
+                CVV
+              </label>
+              <input
+                type="text"
+                name="cvv"
+                className="mt-1 block w-full border border-gray-300 rounded px-3 py-2"
+                placeholder="123"
+                required
+              />
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            className="w-full px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+          >
+            Submit Payment
+          </button>
+        </form>
       ) : (
         <div className="mt-12 text-center space-y-6">
           <h2 className="text-2xl font-semibold text-green-700">

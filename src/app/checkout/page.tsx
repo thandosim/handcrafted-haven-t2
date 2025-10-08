@@ -54,12 +54,18 @@ export default function CheckoutPage() {
     setError(null);
 
     try {
+      const compactCart = cart.map((item) => ({
+        id: item.productId._id,
+        title: item.productId.title,
+        qty: item.qty,
+      }));
+
       const res = await fetch("/api/payment/intent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify({
-          cart,
+          cart: compactCart,
           total,
           currency: "usd",
         }),
@@ -71,6 +77,7 @@ export default function CheckoutPage() {
         if (res.ok) {
           setClientSecret(data.clientSecret);
           setIntentId(data.id);
+          setCart([]); // Clear cart after confirmation
         } else {
           setError(data.error || "Failed to create payment intent.");
         }
@@ -89,82 +96,60 @@ export default function CheckoutPage() {
 
   if (loading) return <div className="p-massive">Loading checkout...</div>;
   if (error) return <div className="p-massive text-red-600">{error}</div>;
-  if (cart.length === 0) return <div className="p-massive">Your cart is empty.</div>;
+  if (cart.length === 0 && !clientSecret)
+    return <div className="p-massive">Your cart is empty.</div>;
 
   return (
     <main className="p-massive">
       <h1 className="text-2xl font-bold mb-6">Checkout</h1>
-      <div className="space-y-4">
-        {cart.map((item, i) => (
-          <div key={i} className="flex justify-between items-center">
-            <div>
-              <p className="font-medium">{item.productId.title}</p>
-              <p className="text-sm text-gray-600">Qty: {item.qty}</p>
-            </div>
-            <div className="text-primary font-bold">
-              ${item.productId.price * item.qty}
-            </div>
+
+      {!clientSecret ? (
+        <>
+          <div className="space-y-4">
+            {cart.map((item, i) => (
+              <div key={i} className="flex justify-between items-center">
+                <div>
+                  <p className="font-medium">{item.productId.title}</p>
+                  <p className="text-sm text-gray-600">Qty: {item.qty}</p>
+                </div>
+                <div className="text-primary font-bold">
+                  ${item.productId.price * item.qty}
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
 
-      <div className="mt-8 text-right">
-        <p className="text-lg font-bold">Total: ${total.toFixed(2)}</p>
-        {!clientSecret ? (
-          <button
-            onClick={handleConfirmOrder}
-            disabled={submitting}
-            className="mt-4 px-6 py-2 bg-primary text-white rounded hover:bg-primary-dark"
-          >
-            {submitting ? "Processing..." : "Confirm Order"}
-          </button>
-        ) : (
-          <form className="mt-6 space-y-4 max-w-md mx-auto">
-            <h2 className="text-xl font-semibold mb-2">Payment Information</h2>
-            <p className="text-sm text-gray-600 mb-4">
-              Payment Intent ID: <span className="font-mono">{intentId}</span>
-            </p>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Card Number</label>
-              <input
-                type="text"
-                name="cardNumber"
-                className="mt-1 block w-full border border-gray-300 rounded px-3 py-2"
-                placeholder="1234 5678 9012 3456"
-              />
-            </div>
-
-            <div className="flex gap-4">
-              <div className="flex-1">
-                <label className="block text-sm font-medium text-gray-700">Expiry</label>
-                <input
-                  type="text"
-                  name="expiry"
-                  className="mt-1 block w-full border border-gray-300 rounded px-3 py-2"
-                  placeholder="MM/YY"
-                />
-              </div>
-              <div className="flex-1">
-                <label className="block text-sm font-medium text-gray-700">CVV</label>
-                <input
-                  type="text"
-                  name="cvv"
-                  className="mt-1 block w-full border border-gray-300 rounded px-3 py-2"
-                  placeholder="123"
-                />
-              </div>
-            </div>
-
+          <div className="mt-8 text-right">
+            <p className="text-lg font-bold">Total: ${total.toFixed(2)}</p>
             <button
-              type="submit"
-              className="w-full px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+              onClick={handleConfirmOrder}
+              disabled={submitting}
+              className="mt-4 px-6 py-2 bg-primary text-white rounded hover:bg-primary-dark"
             >
-              Submit Payment
+              {submitting ? "Processing..." : "Confirm Order"}
             </button>
-          </form>
-        )}
-      </div>
+          </div>
+        </>
+      ) : (
+        <div className="mt-12 text-center space-y-6">
+          <h2 className="text-2xl font-semibold text-green-700">
+            Order Confirmed!
+          </h2>
+          <p className="text-gray-700 text-lg">
+            Thank you for your purchase. Your order has been placed and delivery
+            should be expected in a few days.
+          </p>
+          <p className="text-sm text-gray-500 italic">
+            Payment Intent ID: <span className="font-mono">{intentId}</span>
+          </p>
+          <a
+            href="/shop"
+            className="inline-block px-6 py-2 bg-accent2 text-white rounded hover:bg-accent2-dark transition"
+          >
+            Continue Shopping
+          </a>
+        </div>
+      )}
     </main>
   );
 }

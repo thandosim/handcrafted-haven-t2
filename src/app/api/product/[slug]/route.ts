@@ -9,8 +9,18 @@ export async function GET(
   const { slug } = await params;
   
   await connectDB();
-  const product = await Product.findOne({ slug, status: "active" }).lean();
+  // UPDATED: Populate seller name
+  const product = await Product.findOne({ slug, status: "active" })
+    .populate("sellerId", "name")
+    .lean<{ sellerId?: { name?: string } }>();
+    
   if (!product) return NextResponse.json({ error: "Not found" }, { status: 404 });
   
-  return NextResponse.json({ product }, { status: 200 });
+  // Transform the data to include sellerName
+  const transformedProduct = {
+    ...product,
+    sellerName: product.sellerId?.name || "Artisan"
+  };
+  
+  return NextResponse.json({ product: transformedProduct }, { status: 200 });
 }

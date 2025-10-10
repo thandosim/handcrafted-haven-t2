@@ -1,3 +1,5 @@
+import User from "@/models/User"; 
+
 // const baseUrl = 'http://localhost:3000/api'
 const baseUrl =
   process.env.NODE_ENV === "production"
@@ -8,16 +10,15 @@ const baseUrl =
 export async function fetchFeaturedProduct() {
     try {
         const res = await fetch(`${baseUrl}/product?limit=8`);
-        //Simulate API Call
-        // await new Promise(resolve => setTimeout(resolve, 2000)); // commented to resolve image load timeout issue
         if (res.ok) {
             const data = await res.json();
-             return data.products;
+            return data.products ?? []; // Ensures an array is returned
         } else {
             throw Error(await res.text());
         }
     } catch (error) {
         console.error(error);
+        return []; // Always returns an array on error
     }
 }
 

@@ -6,9 +6,9 @@ export default function Logo() {
       src="/logo-handcrafted.webp"
       width={60}
       height={60}
-      alt="Logo of application"
+      alt="HandCrafted Logo"
       className="z-40 p-xsmall"
-      layout="intrinsic"
+      // layout="intrinsic"
     />
   );
 }

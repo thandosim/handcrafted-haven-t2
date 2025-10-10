@@ -1,7 +1,8 @@
 
 export type Product = {
   _id: string;
-  sellerId: string;
+  sellerId: string | { _id: string; name: string }; // Can be string or populated object  sellerName: string;
+  sellerName?: string; // Added field for seller's name
   title: string;
   slug: string;
   description: string;

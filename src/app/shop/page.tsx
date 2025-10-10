@@ -9,6 +9,7 @@ type Product = {
   title: string;
   price: number;
   slug: string;
+  sellerName: string; // Added field for seller's name
   images: { url: string; alt?: string }[];
 };
 
@@ -54,9 +55,11 @@ export default function ShopPage() {
                   alt={product.images[0]?.alt || product.title}
                   width={300}
                   height={200}
+                  unoptimized={true} // Temporary fix for image optimization issues
                   className="w-full h-40 object-cover rounded"
                 />
                 <h3 className="mt-2 font-bold text-gray-900">{product.title}</h3>
+                <p className="text-xs text-gray-500">by {product.sellerName || "Artisan"}</p>
                 <p className="text-primary font-semibold">${product.price}</p>
               </div>
             </Link>

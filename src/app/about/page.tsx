@@ -8,7 +8,7 @@ export default function AboutPage() {
       </p>
 
       <p className="text-gray-700 text-base leading-relaxed mb-4">
-        Whether you're a creator sharing your story or a buyer seeking one-of-a-kind treasures, Handcrafted Haven fosters a thriving community 
+        Whether you&apos;re a creator sharing your story or a buyer seeking one-of-a-kind treasures, Handcrafted Haven fosters a thriving community 
         of passionate makers and conscious consumers. We believe in supporting local talent, promoting sustainable consumption, and making 
         handcrafted goods more discoverable and appreciated.
       </p>

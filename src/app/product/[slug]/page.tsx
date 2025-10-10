@@ -11,6 +11,7 @@ type Product = {
   price: number;
   tags: string[];
   sellerId: string;
+  sellerName?: string; // Added field for seller's name
   images: { url: string; alt?: string }[];
   ratingAvg: number;
 };
@@ -106,7 +107,7 @@ export default function ProductPage() {
 
         <div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">{product.title}</h1>
-          <p className="text-sm text-gray-500 mb-4">by {product.sellerId || "Artisan"}</p>
+          <p className="text-sm text-gray-500 mb-4">by {product.sellerName || "Artisan"}</p>
           <div className="text-lg text-primary font-bold mb-4">${product.price}</div>
           <p className="text-base text-gray-700 mb-6">{product.description}</p>
 

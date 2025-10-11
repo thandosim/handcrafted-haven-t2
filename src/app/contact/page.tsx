@@ -3,7 +3,7 @@ export default function ContactPage() {
     <main className="p-massive max-w-3xl mx-auto text-center">
       <h1 className="text-3xl font-bold mb-4 text-gray-900">Contact Us</h1>
       <p className="text-gray-700 text-lg leading-relaxed mb-6">
-        We'd love to hear from you! Whether you're an artisan looking to join our marketplace,
+        We&apos;d love to hear from you! Whether you&apos;re an artisan looking to join our marketplace,
         a customer with questions, or a collaborator with ideas—Handcrafted Haven is here to connect.
       </p>
 

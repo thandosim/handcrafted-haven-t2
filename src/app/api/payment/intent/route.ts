@@ -22,8 +22,11 @@ export async function POST(req: Request) {
       amount: amountCents,
       currency: body.currency || "usd",
       metadata: { 
-        userId: typeof payload.sub === "string" || typeof payload.sub === "number" ? payload.sub : null,
-        cart: JSON.stringify(body.cart || [])
+        userId: payload.sub,
+        cart: JSON.stringify(body.cart || {})
+      },
+      automatic_payment_methods: {
+        enabled: true,
       },
     });
 
@@ -32,7 +35,7 @@ export async function POST(req: Request) {
       { status: 200 }
     );
   } catch (err: unknown) {
-  const errorMessage = err instanceof Error ? err.message : "Server error";
-  return NextResponse.json({ error: errorMessage }, { status: 500 });
+    const errorMessage = err instanceof Error ? err.message : "Server error";
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }

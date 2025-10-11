@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import Product from "@/models/Products";
+import User from "@/models/User"; // wherever you use .populate("sellerId", "name").
 import { productCreateSchema } from "@/lib/validation";
 import { requireAuth } from "@/lib/auth";
 import slugify from "slugify";
@@ -45,19 +46,32 @@ export async function GET(req: Request) {
   const tags = url.searchParams.get("tags")?.split(",") || [];
   
   const filter: Record<string, unknown> = {
-  status: "active",
-  price: { $gte: minPrice, $lte: maxPrice },
-};
-
+    status: "active",
+    price: { $gte: minPrice, $lte: maxPrice },
+  };
   
   if (q) filter.$text = { $search: q };
   if (tags.length > 0) filter.tags = { $in: tags };
 
+  // UPDATED: Populate seller name
   const products = await Product.find(filter)
     .skip((page - 1) * limit)
     .limit(limit)
+    .populate("sellerId", "name") // Add this line
     .lean();
-  
+
+  // Transform the data to include sellerName
+  type SellerPopulated = { name?: string };
+
+  const transformedProducts = products.map(product => ({
+    ...product,
+    sellerName: (product.sellerId as SellerPopulated)?.name || "Artisan"
+  }));
+
   const total = await Product.countDocuments(filter);
-  return NextResponse.json({ products, page, totalPages: Math.ceil(total / limit) }, { status: 200 });
+  return NextResponse.json({ 
+    products: transformedProducts, // Return transformed products
+    page, 
+    totalPages: Math.ceil(total / limit) 
+  }, { status: 200 });
 }

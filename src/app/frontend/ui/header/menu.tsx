@@ -21,11 +21,29 @@ const accountlinks = [
   { name: "Register", href: "/register" },
 ];
 
+// ...
+interface CartItem {
+  productId: string;
+  qty: number;
+  addedAt: string;
+}
+
+interface User {
+  name?: string;
+  email?: string;
+  role?: "buyer" | "seller" | "admin";
+  avatar?: string;
+  cart?: CartItem[];
+  createdAt?: string;
+  wishlist?: string[];
+}
+
 export default function Menu() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
+// ...
 
   function handleToggle() {
     setIsOpen(!isOpen);
@@ -104,9 +122,9 @@ export default function Menu() {
                 )}
               >
                 🛒 <span className="sr-only">Cart</span>
-                {user?.cart?.length > 0 && (
+                {(user?.cart && user.cart.length > 0) && (
                   <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs rounded-full px-2 py-0.5">
-                    {user.cart.length}
+                    {user.cart ? user.cart.length : 0}
                   </span>
                 )}
               </Link>

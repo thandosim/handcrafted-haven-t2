@@ -1,8 +1,8 @@
-export function extractFriendlyErrors(errorObj: any): string[] {
+export function extractFriendlyErrors(errorObj: Record<string, unknown>): string[] {
   const messages: string[] = [];
 
   for (const key in errorObj) {
-    const field = errorObj[key];
+    const field = errorObj[key] as { _errors?: string[] };
     if (field && Array.isArray(field._errors)) {
       field._errors.forEach((msg: string) => {
         messages.push(mapToFriendlyMessage(key, msg));
@@ -11,8 +11,8 @@ export function extractFriendlyErrors(errorObj: any): string[] {
   }
 
   // Include top-level _errors if present
-  if (Array.isArray(errorObj._errors)) {
-    errorObj._errors.forEach((msg: string) => {
+  if (Array.isArray((errorObj as { _errors?: string[] })._errors)) {
+    (errorObj as { _errors: string[] })._errors.forEach((msg: string) => {
       messages.push(mapToFriendlyMessage("general", msg));
     });
   }

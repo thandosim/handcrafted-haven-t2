@@ -17,7 +17,7 @@ export default function FeaturedProduct({ product }: { product: Product }) {
             width={1000}
             height={500}
             alt={product.images[0]?.alt || product.title}
-            unoptimized
+            unoptimized={true} // Temporary fix for image optimization issues
             className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
           />
         </div>
@@ -41,8 +41,9 @@ export default function FeaturedProduct({ product }: { product: Product }) {
 
           <h3 className="font-bold text-gray-900 mb-2">{product.title}</h3>
 
+          {/* Updated line - now using sellerName */}
           <p className="text-xs text-gray-500 mb-3">
-            by {product.sellerId || "Artisan"}
+            by {product.sellerName || 'Artisan'}
           </p>
 
           <div className="flex items-center justify-end">

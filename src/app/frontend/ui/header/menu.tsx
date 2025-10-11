@@ -21,7 +21,6 @@ const accountlinks = [
   { name: "Register", href: "/register" },
 ];
 
-// ...
 interface CartItem {
   productId: string;
   qty: number;
@@ -43,7 +42,6 @@ export default function Menu() {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState<User | null>(null);
-// ...
 
   function handleToggle() {
     setIsOpen(!isOpen);
@@ -80,12 +78,14 @@ export default function Menu() {
         aria-label="Menu"
         onClick={handleToggle}
       ></Link>
+
       <nav
         className={`${
           isOpen ? styles.open : ""
         } absolute top-0 left-0 bg-gray-50 shadow-md z-50 w-[250px] h-screen hidden 
-        md:flex md:flex-row md:relative md:shadow-none md:bg-transparent md:justify-evenly md:w-full md:h-auto`}
+        md:flex md:flex-row md:relative md:shadow-none md:bg-transparent md:items-center md:justify-between md:w-full md:h-auto px-4`}
       >
+        {/* Mobile Logo */}
         <div className="py-small border-b-2 border-gray-200 md:hidden">
           <Image
             src="/logo-handcrafted.webp"
@@ -96,7 +96,8 @@ export default function Menu() {
           />
         </div>
 
-        <ul className="flex flex-col md:flex-row md:flex-wrap md:justify-center">
+        {/* Left: Navigation Links */}
+        <ul className="flex flex-col md:flex-row md:flex-wrap md:gap-4">
           {navlinks.map((link) => (
             <li key={link.name}>
               <Link
@@ -112,49 +113,51 @@ export default function Menu() {
               </Link>
             </li>
           ))}
-
-          {(!isLoggedIn || user?.role === "buyer") && (
-            <li className="relative">
-              <Link
-                href="/cart"
-                className={clsx(
-                  "block p-small text-gray-500 text-center hover:bg-accent2 hover:text-gray-900 border-b-1 border-gray-100 md:border-none md:px-medium"
-                )}
-              >
-                🛒 <span className="sr-only">Cart</span>
-                {(user?.cart && user.cart.length > 0) && (
-                  <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs rounded-full px-2 py-0.5">
-                    {user.cart ? user.cart.length : 0}
-                  </span>
-                )}
-              </Link>
-            </li>
-          )}
         </ul>
 
-        <ul className="flex flex-col md:flex-row md:flex-wrap">
-          {isLoggedIn ? (
-            <li>
-              <LogoutButton />
-            </li>
-          ) : (
-            accountlinks.map((link) => (
-              <li key={link.name}>
-                <Link
-                  href={link.href}
-                  className={clsx(
-                    "block p-small text-gray-500 text-center hover:bg-accent2 hover:text-gray-900 border-b-1 border-gray-100 md:border-none md:px-medium",
-                    {
-                      "bg-accent2 text-gray-900": pathname === link.href,
-                    }
-                  )}
-                >
-                  {link.name}
-                </Link>
+        {/* Right: Account + Cart */}
+        <div className="flex items-center gap-4">
+          <ul className="flex flex-col md:flex-row md:flex-wrap">
+            {isLoggedIn ? (
+              <li>
+                <LogoutButton />
               </li>
-            ))
+            ) : (
+              accountlinks.map((link) => (
+                <li key={link.name}>
+                  <Link
+                    href={link.href}
+                    className={clsx(
+                      "block p-small text-gray-500 text-center hover:bg-accent2 hover:text-gray-900 border-b-1 border-gray-100 md:border-none md:px-medium",
+                      {
+                        "bg-accent2 text-gray-900": pathname === link.href,
+                      }
+                    )}
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))
+            )}
+          </ul>
+
+          {/* Cart Button */}
+          {(!isLoggedIn || user?.role === "buyer") && (
+            <Link
+              href="/cart"
+              className={clsx(
+                "relative block p-small text-gray-500 text-center hover:bg-accent2 hover:text-gray-900 border-b-1 border-gray-100 md:border-none md:px-medium"
+              )}
+            >
+              🛒 <span className="sr-only">Cart</span>
+              {(user?.cart && user.cart.length > 0) && (
+                <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs rounded-full px-2 py-0.5">
+                  {user.cart.length}
+                </span>
+              )}
+            </Link>
           )}
-        </ul>
+        </div>
       </nav>
     </>
   );

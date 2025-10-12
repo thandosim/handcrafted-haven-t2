@@ -136,3 +136,14 @@ h1{
   font-size: 48px;
   line-height: 56px;
 }
+
+.alert {
+  background-color: #15803D;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid #15803D;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+}

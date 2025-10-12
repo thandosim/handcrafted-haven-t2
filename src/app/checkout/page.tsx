@@ -1,18 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
-type CartItem = {
-  productId: {
-    _id: string;
-    title: string;
-    price: number;
-  };
-  qty: number;
-};
+import { useCart } from "../context/CartContext";
 
 export default function CheckoutPage() {
-  const [cart, setCart] = useState<CartItem[]>([]);
+  const { cart, clearCart } = useCart();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
@@ -20,31 +12,6 @@ export default function CheckoutPage() {
   const [submitting, setSubmitting] = useState(false);
   const [showPaymentForm, setShowPaymentForm] = useState(false);
   const [paymentCompleted, setPaymentCompleted] = useState(false);
-
-  useEffect(() => {
-    async function fetchCart() {
-      try {
-        const res = await fetch("/api/cart", { credentials: "include" });
-        const contentType = res.headers.get("content-type");
-
-        if (contentType?.includes("application/json")) {
-          const data = await res.json();
-          setCart(data.cart || []);
-        } else {
-          const text = await res.text();
-          console.warn("Unexpected response:", text.slice(0, 100));
-          setError("Please log in to proceed with checkout.");
-        }
-      } catch (err) {
-        console.error("Error fetching cart:", err);
-        setError("Something went wrong. Please try again.");
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchCart();
-  }, []);
 
   const total = cart.reduce(
     (sum, item) => sum + item.productId.price * item.qty,
@@ -100,11 +67,9 @@ export default function CheckoutPage() {
     e.preventDefault();
     // Simulate payment success
     setPaymentCompleted(true);
-    setCart([]);
+    clearCart();
   }
 
-  if (loading) return <div className="p-massive">Loading checkout...</div>;
-  if (error) return <div className="p-massive text-red-600">{error}</div>;
   if (cart.length === 0 && !clientSecret)
     return <div className="p-massive">Your cart is empty.</div>;
 
@@ -114,29 +79,37 @@ export default function CheckoutPage() {
 
       {!clientSecret ? (
         <>
-          <div className="space-y-4">
-            {cart.map((item, i) => (
-              <div key={i} className="flex justify-between items-center">
-                <div>
-                  <p className="font-medium">{item.productId.title}</p>
-                  <p className="text-sm text-gray-600">Qty: {item.qty}</p>
+          <div className="mt-8 flex-1 bg-white shadow-md rounded-lg p-medium">
+            <div className="space-y-4">
+              {cart.map((item, i) => (
+                <div key={i} className="flex justify-between items-center">
+                  <div>
+                    <p className="font-medium">{item.productId.title}</p>
+                    <p className="text-sm text-gray-600">Qty: {item.qty}</p>
+                  </div>
+                  <div className="text-primary font-bold">
+                    ${item.productId.price * item.qty}
+                  </div>
                 </div>
-                <div className="text-primary font-bold">
-                  ${item.productId.price * item.qty}
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+            <p className="text-lg font-semibold mt-medium">
+              Sub Total : ${total.toFixed(2)}
+            </p>
+            <p className="text-lg">Discount : 0</p>
 
-          <div className="mt-8 text-right">
-            <p className="text-lg font-bold">Total: ${total.toFixed(2)}</p>
-            <button
-              onClick={handleConfirmOrder}
-              disabled={submitting}
-              className="mt-4 px-6 py-2 bg-primary text-white rounded hover:bg-primary-dark"
-            >
-              {submitting ? "Processing..." : "Confirm Order"}
-            </button>
+            <div className="mt-8 text-right">
+              <p className="text-xl  text-primary font-bold">
+                Total: ${total.toFixed(2)}
+              </p>
+              <button
+                onClick={handleConfirmOrder}
+                disabled={submitting}
+                className="mt-4 px-6 py-2 bg-primary text-white rounded hover:bg-primary-dark"
+              >
+                {submitting ? "Processing..." : "Confirm Order"}
+              </button>
+            </div>
           </div>
         </>
       ) : !paymentCompleted ? (
@@ -210,7 +183,7 @@ export default function CheckoutPage() {
           </p>
           <a
             href="/shop"
-            className="inline-block px-6 py-2 bg-accent2 text-white rounded hover:bg-accent2-dark transition"
+            className="inline-block px-6 py-2 bg-primary text-white rounded hover:bg-accent2-dark transition"
           >
             Continue Shopping
           </a>

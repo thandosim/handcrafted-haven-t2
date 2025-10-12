@@ -24,6 +24,16 @@ export interface Product {
   createdAt: Date;
 }
 
+export interface CartItem {
+  productId: {
+    _id: string;
+    title: string;
+    price: number;
+    images: { url: string; alt?: string }[];
+  };
+  qty: number;
+}
+
 export interface User {
   _id: string;
   name: string;
@@ -33,12 +43,6 @@ export interface User {
   avatar?: string;
   cart: CartItem[];
   createdAt: Date;
-}
-
-export interface CartItem {
-  productId: string | Product;
-  qty: number;
-  addedAt: Date;
 }
 
 export interface Order {

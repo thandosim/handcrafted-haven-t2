@@ -169,44 +169,16 @@ type CartItem = {
   };
   qty: number;
 };
+import { useCart } from "../context/CartContext";
 
 export default function CheckoutPage() {
-  const [cart, setCart] = useState<CartItem[]>([]);
+  const { cart, clearCart } = useCart();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [intentId, setIntentId] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [paymentCompleted, setPaymentCompleted] = useState(false);
-
-  useEffect(() => {
-    async function fetchCart() {
-      try {
-        const res = await fetch("/api/cart", { credentials: "include" });
-        
-        if (!res.ok) {
-          throw new Error(`Failed to fetch cart: ${res.status}`);
-        }
-        
-        const contentType = res.headers.get("content-type");
-        if (contentType?.includes("application/json")) {
-          const data = await res.json();
-          setCart(data.cart || []);
-        } else {
-          const text = await res.text();
-          console.warn("Unexpected response:", text.slice(0, 100));
-          setError("Please log in to proceed with checkout.");
-        }
-      } catch (err) {
-        console.error("Error fetching cart:", err);
-        setError("Something went wrong. Please try again.");
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchCart();
-  }, []);
 
   const total = cart.reduce(
     (sum, item) => sum + item.productId.price * item.qty,
@@ -260,103 +232,53 @@ export default function CheckoutPage() {
 
   const handlePaymentSuccess = async () => {
     setPaymentCompleted(true);
-    
-    // Clear cart after successful payment
-    try {
-      await fetch('/api/cart', { 
-        method: 'DELETE', 
-        credentials: 'include',
-        body: JSON.stringify({ clearAll: true }),
-        headers: { 'Content-Type': 'application/json' }
-      });
-    } catch (err) {
-      console.error('Error clearing cart:', err);
-    }
-    
-    setCart([]);
-  };
+    clearCart();
+  }
 
   const handlePaymentError = (errorMessage: string) => {
     setError(errorMessage);
   };
 
-  if (loading) {
-    return (
-      <div className="p-8 max-w-4xl mx-auto">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading checkout...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (error && !clientSecret) {
-    return (
-      <div className="p-8 max-w-4xl mx-auto">
-        <div className="bg-red-50 border border-red-200 rounded-lg p-6">
-          <h2 className="text-red-800 font-semibold mb-2">Error</h2>
-          <p className="text-red-700">{error}</p>
-          <button
-            onClick={() => window.location.reload()}
-            className="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-          >
-            Try Again
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  if (cart.length === 0 && !clientSecret && !paymentCompleted) {
-    return (
-      <div className="p-8 max-w-4xl mx-auto">
-        <div className="text-center">
-          <h2 className="text-2xl font-semibold mb-4">Your cart is empty</h2>
-          <a
-            href="/shop"
-            className="inline-block px-6 py-2 bg-primary text-white rounded hover:bg-primary-dark"
-          >
-            Continue Shopping
-          </a>
-        </div>
-      </div>
-    );
-  }
+  if (cart.length === 0 && !clientSecret)
+    return <div className="p-massive">Your cart is empty.</div>;
 
   return (
     <main className="p-8 max-w-4xl mx-auto">
       <h1 className="text-3xl font-bold mb-8">Checkout</h1>
 
       {!clientSecret ? (
-        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-          <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
-          <div className="space-y-4">
-            {cart.map((item, i) => (
-              <div key={i} className="flex justify-between items-center py-2 border-b">
-                <div>
-                  <p className="font-medium">{item.productId.title}</p>
-                  <p className="text-sm text-gray-600">Qty: {item.qty}</p>
+        <div>
+          <div className="mt-8 flex-1 bg-white shadow-md rounded-lg p-medium">
+            <div className="space-y-4">
+              {cart.map((item, i) => (
+                <div key={i} className="flex justify-between items-center">
+                  <div>
+                    <p className="font-medium">{item.productId.title}</p>
+                    <p className="text-sm text-gray-600">Qty: {item.qty}</p>
+                  </div>
+                  <div className="text-primary font-bold">
+                    ${item.productId.price * item.qty}
+                  </div>
                 </div>
-                <div className="text-primary font-bold">
-                  ${(item.productId.price * item.qty).toFixed(2)}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-6 pt-4 border-t">
-            <div className="flex justify-between items-center text-lg font-bold">
-              <span>Total:</span>
-              <span>${total.toFixed(2)}</span>
+              ))}
             </div>
-            <button
-              onClick={handleConfirmOrder}
-              disabled={submitting || cart.length === 0}
-              className="mt-6 w-full px-6 py-3 bg-primary text-white font-medium rounded hover:bg-primary-dark disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
-            >
-              {submitting ? "Processing..." : "Confirm Order & Pay"}
-            </button>
+            <p className="text-lg font-semibold mt-medium">
+              Sub Total : ${total.toFixed(2)}
+            </p>
+            <p className="text-lg">Discount : 0</p>
+
+            <div className="mt-8 text-right">
+              <p className="text-xl  text-primary font-bold">
+                Total: ${total.toFixed(2)}
+              </p>
+              <button
+                onClick={handleConfirmOrder}
+                disabled={submitting}
+                className="mt-4 px-6 py-2 bg-primary text-white rounded hover:bg-primary-dark"
+              >
+                {submitting ? "Processing..." : "Confirm Order"}
+              </button>
+            </div>
           </div>
         </div>
       ) : !paymentCompleted ? (
@@ -415,55 +337,23 @@ export default function CheckoutPage() {
           </div>
         </div>
       ) : (
-        <div className="bg-white rounded-lg shadow-md p-8 text-center">
-          <div className="mb-6">
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-            </div>
-            <h2 className="text-2xl font-semibold text-green-700 mb-2">
-              Order Confirmed!
-            </h2>
-            <p className="text-gray-700 mb-4">
-              Thank you for your purchase. Your order has been placed successfully.
-            </p>
-            <p className="text-sm text-gray-500 mb-6">
-              You will receive a confirmation email shortly. Delivery should be expected in 3-5 business days.
-            </p>
-            {intentId && (
-              <p className="text-xs text-gray-400 mb-6">
-                Payment ID: <span className="font-mono">{intentId}</span>
-              </p>
-            )}
-          </div>
-          <div className="space-x-4">
-            <a
-              href="/orders"
-              className="inline-block px-6 py-2 bg-primary text-white rounded hover:bg-primary-dark transition"
-            >
-              View Orders
-            </a>
-            <a
-              href="/shop"
-              className="inline-block px-6 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition"
-            >
-              Continue Shopping
-            </a>
-          </div>
-        </div>
-      )}
-
-      {error && clientSecret && (
-        <div className="mt-4 p-4 bg-red-50 text-red-700 rounded">
-          <p className="font-semibold">Payment Error:</p>
-          <p>{error}</p>
-          <button
-            onClick={() => setError(null)}
-            className="mt-2 px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700"
+        <div className="mt-12 text-center space-y-6">
+          <h2 className="text-2xl font-semibold text-green-700">
+            Order Confirmed!
+          </h2>
+          <p className="text-gray-700 text-lg">
+            Thank you for your purchase. Your order has been placed and delivery
+            should be expected in a few days.
+          </p>
+          <p className="text-sm text-gray-500 italic">
+            Payment Intent ID: <span className="font-mono">{intentId}</span>
+          </p>
+          <a
+            href="/shop"
+            className="inline-block px-6 py-2 bg-primary text-white rounded hover:bg-accent2-dark transition"
           >
             Dismiss
-          </button>
+          </a>
         </div>
       )}
     </main>

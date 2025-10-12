@@ -13,6 +13,7 @@ import "swiper/css/pagination";
 import "swiper/css";
 
 import styles from "./banner.module.css";
+import Link from "next/link";
 
 export default function HeroBanner() {
   return (
@@ -29,16 +30,16 @@ export default function HeroBanner() {
             that tell a story. Every purchase supports independent creators.
           </p>
           <div className="flex flex-row gap-medium justify-center mt-medium">
-            <a href="" className="bg-primary text-white p-2 rounded-sm">
+            <Link href="/shop" className="bg-primary text-white p-2 rounded-sm">
               Shop now
-            </a>
+            </Link>
 
-            <a
-              href=""
+            <Link
+              href="/about"
               className="bg-gray-50 p-2 rounded-sm border-1 border-gray-200"
             >
               Learn more
-            </a>
+            </Link>
           </div>
         </div>
         <div className="w-full mt-medium md:w-[800px] md:h-auto">

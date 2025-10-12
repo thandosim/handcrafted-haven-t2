@@ -2,13 +2,12 @@ export const dynamic = "force-dynamic";
 import HeroBanner from "./frontend/ui/home/hero";
 import FeaturedProduct from "./frontend/ui/home/featured-product";
 import { fetchFeaturedProduct, fetchFeaturedSellers } from "./frontend/lib/api";
-import { Product, Seller } from "./frontend/lib/definitions";
-import SwiperSellers from "./frontend/ui/home/swiper-sellers";
 import Image from "next/image";
+import { Product } from "@/lib/types";
 
 export default async function Home() {
   const featuredProducts: Product[] = await fetchFeaturedProduct();
-  const featuredSellers: Seller[] = await fetchFeaturedSellers();
+  const featuredSellers = await fetchFeaturedSellers();
 
   //console.log(featuredProducts.length);
   return (
@@ -102,6 +101,44 @@ export default async function Home() {
           ) : (
             <div className="col-span-full text-center text-gray-500 py-8">
               <p>No featured products available at the moment.</p>
+            </div>
+          )}
+        </div>
+      </section>
+      <section className="p-small md:px-massive bg-gray-100 mt-medium py-massive">
+        <div className="text-center">
+          <h3 className="text-2xl mb-small font-family-inter font-bold">
+            Featured Sellers
+          </h3>
+          <p className="text-sm">
+            Meet some of our talented artisans
+          </p>
+        </div>
+        <div className="grid grid-cols-1 gap-small md:grid-cols-4 mt-large">
+          {featuredSellers.length > 0 ? (
+            featuredSellers.map((seller) => {
+              return (
+                <div
+                  key={seller.id}
+                  className="bg-white p-medium rounded-lg shadow hover:shadow-lg transition"
+                >
+                  <div className="w-full h-48 relative mb-medium">
+                    <Image
+                      src={seller.image}
+                      alt={seller.name}
+                      fill
+                      className="object-cover rounded-lg"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                  </div>
+                  <h4 className="font-bold text-lg mb-2">{seller.name}</h4>
+                  <p className="text-sm text-gray-600">{seller.bio}</p>
+                </div>
+              );
+            })
+          ) : (
+            <div className="col-span-full text-center text-gray-500 py-8">
+              <p>No featured sellers available at the moment.</p>
             </div>
           )}
         </div>

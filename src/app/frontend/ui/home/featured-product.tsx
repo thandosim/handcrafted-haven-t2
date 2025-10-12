@@ -10,7 +10,7 @@ export default function FeaturedProduct({ product }: { product: Product }) {
 
   return (
     <Link href={`/product/${product.slug}`}>
-      <div className="bg-white shadow-sm overflow-hidden hover:shadow-md transition-all duration-300 transform hover:-translate-y-2 group cursor-pointer">
+      <div className="bg-white shadow-sm rounded-lg overflow-hidden hover:shadow-md transition-all duration-300 transform hover:-translate-y-2 group cursor-pointer">
         <div className="relative overflow-hidden">
           <Image
             src={imageUrl}

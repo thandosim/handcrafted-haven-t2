@@ -3,10 +3,12 @@
 import Link from "next/link";
 import styles from "./header.module.css";
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
 import LogoutButton from "./LogoutButton";
+import { ShoppingCartIcon } from "@heroicons/react/24/outline";
+import css from "./badge.module.css";
+import { useRouter } from "next/router";
 
 const navlinks = [
   { name: "Home", href: "/" },
@@ -84,27 +86,17 @@ export default function Menu() {
         className={`${
           isOpen ? styles.open : ""
         } absolute top-0 left-0 bg-gray-50 shadow-md z-50 w-[250px] h-screen hidden 
-        md:flex md:flex-row md:relative md:shadow-none md:bg-transparent md:justify-evenly md:w-full md:h-auto`}
+        md:flex md:flex-row md:gap-small md:relative md:shadow-none md:bg-transparent md:justify-evently md:items-center md:w-full md:h-auto`}
       >
-        <div className="py-small border-b-2 border-gray-200 md:hidden">
-          <Image
-            src="/logo-handcrafted.webp"
-            width={150}
-            height={20}
-            alt="Logo of application"
-            className="mx-auto"
-          />
-        </div>
-
-        <ul className="flex flex-col md:flex-row md:flex-wrap md:justify-center">
+        <ul className="flex flex-col md:flex-row md:flex-wrap md:justify-start md:items-center md:flex-2">
           {navlinks.map((link) => (
             <li key={link.name}>
               <Link
                 href={link.href}
                 className={clsx(
-                  "block p-small text-gray-500 text-center hover:bg-accent2 hover:text-gray-900 border-b-1 border-gray-100 md:border-none md:px-medium",
+                  "block p-small font-family-inter text-primary text-center hover:text-accent1",
                   {
-                    "bg-accent2 text-gray-900": pathname === link.href,
+                    "text-accent1": pathname === link.href,
                   }
                 )}
               >
@@ -113,7 +105,7 @@ export default function Menu() {
             </li>
           ))}
 
-          {(!isLoggedIn || user?.role === "buyer") && (
+          {/*  {(!isLoggedIn || user?.role === "buyer") && (
             <li className="relative">
               <Link
                 href="/cart"
@@ -129,32 +121,21 @@ export default function Menu() {
                 )}
               </Link>
             </li>
-          )}
+          )} */}
         </ul>
 
-        <ul className="flex flex-col md:flex-row md:flex-wrap">
-          {isLoggedIn ? (
-            <li>
-              <LogoutButton />
-            </li>
-          ) : (
-            accountlinks.map((link) => (
-              <li key={link.name}>
-                <Link
-                  href={link.href}
-                  className={clsx(
-                    "block p-small text-gray-500 text-center hover:bg-accent2 hover:text-gray-900 border-b-1 border-gray-100 md:border-none md:px-medium",
-                    {
-                      "bg-accent2 text-gray-900": pathname === link.href,
-                    }
-                  )}
-                >
-                  {link.name}
-                </Link>
-              </li>
-            ))
-          )}
-        </ul>
+        <div className="md:flex-1">
+          <input
+            type="text"
+            placeholder="Search for handcrafted item......"
+            className="rounded-md w-full h-[30px] border-2 border-gray-200 bg-gray-100 focus:outline-none p-xsmall"
+          />
+        </div>
+
+        <button type="button" className="relative">
+          <ShoppingCartIcon className="size-6 text-gray-700" />
+          <span className={css.badge}>0</span>
+        </button>
       </nav>
     </>
   );

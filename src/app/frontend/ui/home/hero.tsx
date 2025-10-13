@@ -17,7 +17,7 @@ import Link from "next/link";
 
 export default function HeroBanner() {
   return (
-    <div className="relative h-[85vh] border-b-1 border-gray-200">
+    <div className="relative h-[100vh] md:h-[85vh] border-b-1 border-gray-200">
       <div className={`${styles.container}`}>
         <div className="md:w-[640px] md:h-auto">
           <h1>

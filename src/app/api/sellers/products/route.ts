@@ -20,9 +20,22 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 
   await connectDB();
-  const products = await Product.find({ sellerId: payload.sub });
-  return NextResponse.json({ products }, { status: 200 });
+  // UPDATED: Populate seller name
+  const products = await Product.find({ sellerId: payload.sub })
+    .populate("sellerId", "name") // Add this line
+    .lean();
+
+  // Transform the data to include sellerName
+  type SellerPopulated = { name?: string };
+
+  const transformedProducts = products.map(product => ({
+    ...product,
+    sellerName: (product.sellerId as SellerPopulated)?.name || "Artisan"
+  }));
+
+  return NextResponse.json({ products: transformedProducts }, { status: 200 }); // Return transformed
 }
+
 
 export async function PATCH(req: Request) {
   const payload = requireAuth(req);

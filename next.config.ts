@@ -2,42 +2,38 @@ import type { NextConfig } from "next";
 import path from "path";
 
 const nextConfig: NextConfig = {
-  // Explicitly set project root to handcrafted-haven-t2
+  // Project root configuration
   outputFileTracingRoot: path.join(__dirname),
 
-  // Remove turbopack if you're having issues with it
-  // experimental: {
-  //   turbo: {
-  //     rules: {}
-  //   }
-  // },
-
   typescript: {
-    // Ignore build errors during development, but check in production
     ignoreBuildErrors: process.env.NODE_ENV === "development",
   },
 
   eslint: {
-    // Ignore ESLint during builds if needed
     ignoreDuringBuilds: process.env.NODE_ENV === "production",
   },
+
   images: {
-    domains: ["example.com"],
+    // Remove the deprecated 'domains' array and use only remotePatterns
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "plus.unsplash.com",
-        pathname: "**",
-      },{
-        protocol: "https",
-        hostname: "images.unsplash.com",
-        pathname: "**",
-      },{
-        protocol: "https",
-        hostname: "images.pexels.com",
-        pathname: "**",
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
       },
-    ], // Add any other trusted domains here
+      {
+        protocol: 'https',
+        hostname: 'plus.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'example.com',
+      },
+    ],
+  },
+
+  // Optional: Increase timeout for image optimization
+  experimental: {
+    optimizeCss: true,
   },
 };
 

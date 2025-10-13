@@ -40,12 +40,23 @@ export async function DELETE(req: Request) {
   if (!payload) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const body = await req.json();
-  const { productId } = body;
+  const { productId, clearAll } = body;
   
   await connectDB();
-  await User.updateOne(
-    { _id: payload.sub },
-    { $pull: { cart: { productId } } }
-  );
+  
+  if (clearAll) {
+    // Clear entire cart
+    await User.updateOne(
+      { _id: payload.sub },
+      { $set: { cart: [] } }
+    );
+  } else if (productId) {
+    // Remove specific product
+    await User.updateOne(
+      { _id: payload.sub },
+      { $pull: { cart: { productId } } }
+    );
+  }
+  
   return NextResponse.json({ success: true }, { status: 200 });
 }

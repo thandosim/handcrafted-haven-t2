@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import { useCart } from "@/app/context/CartContext";
-import { Product } from "@/lib/types";
+import { Product } from "@/app/frontend/lib/definitions";
 
 export default function ProductPage() {
   const { slug } = useParams();
@@ -61,7 +61,7 @@ export default function ProductPage() {
             {product.title}
           </h1>
           <p className="text-sm text-gray-500 mb-4">
-            by {product.sellerId || "Artisan"}
+            by {product.sellerName || "Artisan"}
           </p>
           <div className="text-lg text-primary font-bold mb-4">
             ${product.price}

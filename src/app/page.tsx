@@ -3,7 +3,7 @@ import HeroBanner from "./frontend/ui/home/hero";
 import FeaturedProduct from "./frontend/ui/home/featured-product";
 import { fetchFeaturedProduct, fetchFeaturedSellers } from "./frontend/lib/api";
 import Image from "next/image";
-import { Product } from "@/lib/types";
+import { Product } from "./frontend/lib/definitions";
 
 export default async function Home() {
   const featuredProducts: Product[] = await fetchFeaturedProduct();

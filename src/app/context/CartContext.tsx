@@ -9,7 +9,8 @@ import {
 } from "react";
 
 import { alertMessage, getLocalStorage, setLocalStorage } from "../utils";
-import { CartItem, Product } from "@/lib/types";
+import { CartItem } from "@/lib/types";
+import { Product } from "../frontend/lib/definitions";
 
 type CartContextType = {
   cart: CartItem[];

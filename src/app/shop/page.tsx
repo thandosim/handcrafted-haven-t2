@@ -45,7 +45,7 @@ export default function ShopPage() {
       <section className="p-small md:p-massive">
         <div className="text-center">
           <h3 className="text-2xl mb-small font-family-inter font-bold">
-            Meet Our Sellers
+            Our Products
           </h3>
           <p className="text-sm">
             Explore our carefully curated categories of handcrafted items from

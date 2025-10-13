@@ -8,7 +8,7 @@ export default function LogoutButton() {
   async function handleLogout() {
     try {
       await fetch("/api/auth/logout", { method: "POST" });
-      router.push("/login"); // Redirect to login or homepage
+      router.push("/"); // Redirect to login or homepage
     } catch (err) {
       console.error("Logout failed:", err);
     }

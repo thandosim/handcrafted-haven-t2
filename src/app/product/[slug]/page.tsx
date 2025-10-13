@@ -3,18 +3,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
-
-type Product = {
-  _id: string;
-  title: string;
-  description: string;
-  price: number;
-  tags: string[];
-  sellerId: string;
-  sellerName?: string; // Added field for seller's name
-  images: { url: string; alt?: string }[];
-  ratingAvg: number;
-};
+import { useCart } from "@/app/context/CartContext";
+import { Product } from "@/app/frontend/lib/definitions";
 
 export default function ProductPage() {
   const { slug } = useParams();
@@ -23,6 +13,7 @@ export default function ProductPage() {
   const [adding, setAdding] = useState(false);
   const [added, setAdded] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { addToCart } = useCart();
 
   useEffect(() => {
     async function fetchProduct() {
@@ -44,46 +35,6 @@ export default function ProductPage() {
     fetchProduct();
   }, [slug]);
 
-  async function handleAddToCart() {
-  if (!product?._id) return;
-  setAdding(true);
-  setError(null);
-
-  try {
-    const res = await fetch("/api/cart", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ productId: product._id, qty: 1 }),
-      credentials: "include",
-    });
-
-    const contentType = res.headers.get("content-type") || "";
-
-    if (contentType.includes("application/json")) {
-      const data = await res.json();
-      if (res.ok) {
-        setAdded(true);
-      //cosider updating cart count without reloading
-      } else {
-        const message =
-          typeof data.error === "string"
-            ? data.error
-            : "Failed to add to cart. Please try again.";
-        setError(message);
-      }
-    } else {
-      const text = await res.text(); // fallback for HTML or plain text
-      console.warn("Non-JSON response received:", text.slice(0, 100));
-      setError("You may need to log in before adding items to your cart.");
-    }
-  } catch (err) {
-    console.error("Add to cart failed:", err);
-    setError("Something went wrong. Please try again.");
-  } finally {
-    setAdding(false);
-  }
-}
-
   if (loading) return <div className="p-massive">Loading product...</div>;
   if (!product) return <div className="p-massive">Product not found.</div>;
 
@@ -94,7 +45,7 @@ export default function ProductPage() {
 
   return (
     <main className="p-massive">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-large">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-large container">
         <div className="relative w-full h-96">
           <Image
             src={imageUrl}
@@ -106,9 +57,15 @@ export default function ProductPage() {
         </div>
 
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">{product.title}</h1>
-          <p className="text-sm text-gray-500 mb-4">by {product.sellerName || "Artisan"}</p>
-          <div className="text-lg text-primary font-bold mb-4">${product.price}</div>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            {product.title}
+          </h1>
+          <p className="text-sm text-gray-500 mb-4">
+            by {product.sellerName || "Artisan"}
+          </p>
+          <div className="text-lg text-primary font-bold mb-4">
+            ${product.price}
+          </div>
           <p className="text-base text-gray-700 mb-6">{product.description}</p>
 
           <div className="flex space-x-2 mb-6">
@@ -120,22 +77,13 @@ export default function ProductPage() {
           </div>
 
           <button
-            onClick={handleAddToCart}
-            disabled={adding || added}
-            className={`px-4 py-2 rounded text-white transition ${
-              added
-                ? "bg-green-600 cursor-default"
-                : "bg-primary hover:bg-primary-dark"
-            }`}
+            onClick={() => addToCart(product)}
+            className="px-4 py-2 rounded text-white bg-primary hover:bg-primary-dark"
           >
-            {added ? "Added to Cart" : adding ? "Adding..." : "Add to Cart"}
+            Add to Cart
           </button>
 
-          {error && (
-            <p className="mt-2 text-sm text-red-600">
-              {error}
-            </p>
-          )}
+          {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
         </div>
       </div>
     </main>

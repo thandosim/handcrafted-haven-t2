@@ -1,7 +1,8 @@
 // featured-product.tsx
-import { Product } from "@/app/frontend/lib/definitions";
+
 import Image from "next/image";
 import Link from "next/link";
+import { Product } from "../../lib/definitions";
 
 export default function FeaturedProduct({ product }: { product: Product }) {
   const imageUrl = product.images[0]?.url?.startsWith("http")
@@ -10,7 +11,7 @@ export default function FeaturedProduct({ product }: { product: Product }) {
 
   return (
     <Link href={`/product/${product.slug}`}>
-      <div className="bg-white shadow-sm overflow-hidden hover:shadow-md transition-all duration-300 transform hover:-translate-y-2 group cursor-pointer">
+      <div className="bg-white shadow-sm rounded-lg overflow-hidden hover:shadow-md transition-all duration-300 transform hover:-translate-y-2 group cursor-pointer">
         <div className="relative overflow-hidden">
           <Image
             src={imageUrl}
@@ -43,7 +44,7 @@ export default function FeaturedProduct({ product }: { product: Product }) {
 
           {/* Updated line - now using sellerName */}
           <p className="text-xs text-gray-500 mb-3">
-            by {product.sellerName || 'Artisan'}
+            by {product.sellerName || "Artisan"}
           </p>
 
           <div className="flex items-center justify-end">

@@ -3,6 +3,12 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import HeroBanner from "../frontend/ui/home/hero";
+import {
+  ArrowLeftIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+} from "@heroicons/react/24/outline";
 
 type Seller = {
   _id: string;
@@ -38,48 +44,62 @@ export default function SellersPage() {
   const paginated = sellers.slice((page - 1) * limit, page * limit);
 
   return (
-    <main className="p-massive max-w-6xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6 text-center">Meet Our Sellers</h1>
-
-      {loading ? (
-        <div className="text-center text-gray-500">Loading sellers...</div>
-      ) : paginated.length === 0 ? (
-        <div className="text-center text-gray-500">No sellers found.</div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {paginated.map((seller) => {
-            const slug = seller.name.toLowerCase().replace(/\s+/g, "-");
-            const avatarUrl = seller.avatar || "/placeholder.jpg";
-
-            return (
-              <Link key={seller._id} href={`/seller/${slug}`}>
-                <div className="bg-white shadow-sm p-4 rounded-lg hover:shadow-md transition text-center">
-                  <div className="w-24 h-24 mx-auto rounded-full bg-accent2 overflow-hidden flex items-center justify-center">
-                    <Image
-                      src={avatarUrl}
-                      alt={seller.name}
-                      width={96}
-                      height={96}
-                      className="object-cover rounded-full"
-                    />
-                  </div>
-                  <h3 className="mt-4 font-bold text-gray-900">{seller.name}</h3>
-                  <p className="text-sm text-gray-500">{seller.email}</p>
-                </div>
-              </Link>
-            );
-          })}
+    <main>
+      <HeroBanner />
+      <section className="p-small md:p-massive">
+        <div className="text-center">
+          <h3 className="text-2xl mb-small font-family-inter font-bold">
+            Meet Our Sellers
+          </h3>
+          <p className="text-sm">
+            Explore our carefully curated categories of handcrafted items from
+            skilled artisans worldwide.
+          </p>
         </div>
-      )}
+        <div>
+          {loading ? (
+            <div className="text-center text-gray-500">Loading sellers...</div>
+          ) : paginated.length === 0 ? (
+            <div className="text-center text-gray-500">No sellers found.</div>
+          ) : (
+            <div className="grid grid-cols-1 gap-small md:grid-cols-4 mt-large">
+              {paginated.map((seller) => {
+                const slug = seller.name.toLowerCase().replace(/\s+/g, "-");
+                const avatarUrl = seller.avatar || "/avatar.webp";
+
+                return (
+                  <Link key={seller._id} href={`/seller/${slug}`}>
+                    <div className="bg-white shadow-sm p-4 rounded-lg hover:shadow-md transition text-center">
+                      <div className="mx-auto rounded-xl border-1 border-gray-300 overflow-hidden flex items-center justify-center">
+                        <Image
+                          src={avatarUrl}
+                          alt={seller.name}
+                          width={200}
+                          height={288}
+                          className="object-cover rounded-full"
+                        />
+                      </div>
+                      <h3 className="mt-4 font-bold text-gray-900">
+                        {seller.name}
+                      </h3>
+                      <p className="text-sm text-gray-500">{seller.email}</p>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </section>
 
       {/* Pagination Controls */}
-      <div className="flex justify-center items-center gap-4 mt-10">
+      <div className="flex justify-center items-center gap-4 my-10">
         <button
           onClick={() => setPage((p) => Math.max(p - 1, 1))}
           disabled={page === 1}
-          className="px-4 py-2 bg-accent2 text-gray-900 rounded disabled:opacity-50"
+          className="px-2 py-4 bg-gray-100 rounded disabled:opacity-50"
         >
-          Previous
+          <ChevronLeftIcon className="size-6 text-bold text-primary" />
         </button>
         <span className="text-sm text-gray-600">
           Page {page} of {totalPages}
@@ -87,9 +107,9 @@ export default function SellersPage() {
         <button
           onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
           disabled={page === totalPages}
-          className="px-4 py-2 bg-accent2 text-gray-900 rounded disabled:opacity-50"
+          className="px-2 py-4 bg-gray-100 rounded disabled:opacity-50"
         >
-          Next
+          <ChevronRightIcon className="size-6 text-bold text-primary" />
         </button>
       </div>
     </main>

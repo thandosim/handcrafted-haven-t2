@@ -4,12 +4,12 @@ import { useAuth } from "@/app/context/AuthContext";
 import {
   ArrowRightEndOnRectangleIcon,
   ArrowTopRightOnSquareIcon,
+  UserIcon,
+  ShoppingCartIcon,
 } from "@heroicons/react/24/outline";
-import { UserIcon, ShoppingCartIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
-import css from "./badge.module.css";
+import { usePathname } from "next/navigation";
+import { useState, useEffect, useRef } from "react";
 import { useCart } from "@/app/context/CartContext";
 
 export default function AuthButton() {
@@ -17,6 +17,7 @@ export default function AuthButton() {
   const [isOpen, setIsOpen] = useState(false);
   const { isLoggedIn } = useAuth();
   const { cart } = useCart();
+  const menuRef = useRef<HTMLDivElement>(null);
 
   function handleToggle() {
     setIsOpen(!isOpen);
@@ -30,8 +31,21 @@ export default function AuthButton() {
     }
   }
 
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="relative flex justify-end mt-small gap-small">
+    <div className="relative flex justify-end mt-small gap-small" ref={menuRef}>
       <div>
         <Link href="/cart" className="relative inline-block">
           <ShoppingCartIcon className="w-6 h-6 text-gray-700" />
@@ -44,62 +58,58 @@ export default function AuthButton() {
         <button type="button" onClick={handleToggle}>
           <UserIcon className="size-6 text-gray-700" />
         </button>
-        {isLoggedIn ? (
-          <ul
-            className={`${
-              isOpen
-                ? "block absolute z-100 top-8 right-1 w-40 h-auto bg-surface shadow-md rounded-md text-md"
-                : "hidden"
-            }`}
-          >
-            <li className="border-b-1 border-gray-300">
-              <a
-                href="/"
-                onClick={handleLogout}
-                className=" p-xsmall flex items-center gap-xsmall hover:bg-gray-200"
-              >
-                <ArrowRightEndOnRectangleIcon className="size-5 text-gray-700" />
-                Logout
-              </a>
-            </li>
-            <li>
-              <a
-                href="/register"
-                className=" p-xsmall flex items-center gap-xsmall hover:bg-gray-200"
-              >
-                <ArrowTopRightOnSquareIcon className="size-5 text-gray-700" />
-                Profile
-              </a>
-            </li>
-          </ul>
-        ) : (
-          <ul
-            className={`${
-              isOpen
-                ? "block absolute z-100 top-8 right-1 w-40 h-auto bg-surface shadow-md rounded-md text-md"
-                : "hidden"
-            }`}
-          >
-            <li className="border-b-1 border-gray-300">
-              <Link
-                href="/login"
-                className=" p-xsmall flex items-center gap-xsmall hover:bg-gray-200"
-              >
-                <ArrowRightEndOnRectangleIcon className="size-5 text-gray-700" />
-                Login
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/register"
-                className=" p-xsmall flex items-center gap-xsmall hover:bg-gray-200"
-              >
-                <ArrowTopRightOnSquareIcon className="size-5 text-gray-700" />
-                Register
-              </Link>
-            </li>
-          </ul>
-        )}
+        <ul
+          className={`${
+            isOpen
+              ? "block absolute z-100 top-8 right-1 w-40 h-auto bg-surface shadow-md rounded-md text-md"
+              : "hidden"
+          }`}
+        >
+          {isLoggedIn ? (
+            <>
+              <li className="border-b-1 border-gray-300">
+                <a
+                  href="/"
+                  onClick={handleLogout}
+                  className="p-xsmall flex items-center gap-xsmall hover:bg-gray-200"
+                >
+                  <ArrowRightEndOnRectangleIcon className="size-5 text-gray-700" />
+                  Logout
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/register"
+                  className="p-xsmall flex items-center gap-xsmall hover:bg-gray-200"
+                >
+                  <ArrowTopRightOnSquareIcon className="size-5 text-gray-700" />
+                  Profile
+                </a>
+              </li>
+            </>
+          ) : (
+            <>
+              <li className="border-b-1 border-gray-300">
+                <Link
+                  href="/login"
+                  className="p-xsmall flex items-center gap-xsmall hover:bg-gray-200"
+                >
+                  <ArrowRightEndOnRectangleIcon className="size-5 text-gray-700" />
+                  Login
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/register"
+                  className="p-xsmall flex items-center gap-xsmall hover:bg-gray-200"
+                >
+                  <ArrowTopRightOnSquareIcon className="size-5 text-gray-700" />
+                  Register
+                </Link>
+              </li>
+            </>
+          )}
+        </ul>
       </div>
     </div>
   );

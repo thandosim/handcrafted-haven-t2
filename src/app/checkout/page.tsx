@@ -35,35 +35,7 @@ function CheckoutForm({
   const [processing, setProcessing] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (!stripe || !clientSecret) return;
-
-    const checkPaymentStatus = async () => {
-      try {
-        const { paymentIntent } = await stripe.retrievePaymentIntent(
-          clientSecret
-        );
-        switch (paymentIntent?.status) {
-          case "succeeded":
-            setMessage("Payment succeeded!");
-            break;
-          case "processing":
-            setMessage("Your payment is processing.");
-            break;
-          case "requires_payment_method":
-            setMessage("Your payment was not successful, please try again.");
-            break;
-          default:
-            setMessage("Something went wrong.");
-            break;
-        }
-      } catch (err) {
-        console.error("Error retrieving payment intent:", err);
-      }
-    };
-
-    checkPaymentStatus();
-  }, [stripe, clientSecret]);
+  // 🧹 Removed the useEffect that checked status on mount
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -77,7 +49,7 @@ function CheckoutForm({
     setMessage(null);
 
     try {
-      const { error: stripeError } = await stripe.confirmPayment({
+      const { error: stripeError, paymentIntent } = await stripe.confirmPayment({
         elements,
         confirmParams: {
           return_url: `${window.location.origin}/checkout/success`,
@@ -90,12 +62,17 @@ function CheckoutForm({
           stripeError.message || "Payment failed. Please try again.";
         setError(errorMsg);
         onError(errorMsg);
-      } else {
-        // Payment succeeded
+      } else if (paymentIntent?.status === "succeeded") {
         setMessage("Payment successful! Processing your order...");
         setTimeout(() => {
           onSuccess();
         }, 2000);
+      } else if (paymentIntent?.status === "processing") {
+        setMessage("Your payment is processing.");
+      } else if (paymentIntent?.status === "requires_payment_method") {
+        setMessage("Your payment was not successful, please try again.");
+      } else {
+        setMessage("Something went wrong. Please try again.");
       }
     } catch (err) {
       const errorMessage =
@@ -135,13 +112,6 @@ function CheckoutForm({
           <PaymentElement
             options={{
               layout: "tabs",
-              // fields: {
-              //   billingDetails: {
-              //     address: {
-              //       country: "never"
-              //     }
-              //   }
-              // }
             }}
           />
         </div>
@@ -203,8 +173,11 @@ export default function CheckoutPage() {
   );
 
   async function handleConfirmOrder() {
-    setSubmitting(true);
     setError(null);
+    setClientSecret(null);
+    setIntentId(null);
+    setPaymentCompleted(false);
+    setSubmitting(true);
 
     try {
       const compactCart = cart.map((item) => ({
@@ -213,6 +186,10 @@ export default function CheckoutPage() {
         qty: item.qty,
         price: item.productId.price,
       }));
+
+      if (total <= 0) {
+        throw new Error("Order total must be greater than zero.");
+      }
 
       const res = await fetch("/api/payment/intent", {
         method: "POST",
@@ -226,16 +203,14 @@ export default function CheckoutPage() {
       });
 
       if (!res.ok) {
-        const errorData = await res
-          .json()
-          .catch(() => ({ error: "Unknown error" }));
+        const errorData = await res.json().catch(() => ({ error: "Unknown error" }));
         throw new Error(errorData.error || `HTTP error! status: ${res.status}`);
       }
 
       const data = await res.json();
 
       if (!data.clientSecret) {
-        throw new Error("No client secret received from server");
+        throw new Error("No client secret received from server.");
       }
 
       setClientSecret(data.clientSecret);
@@ -243,9 +218,7 @@ export default function CheckoutPage() {
     } catch (err) {
       console.error("Error confirming order:", err);
       const errorMessage =
-        err instanceof Error
-          ? err.message
-          : "Something went wrong. Please try again.";
+        err instanceof Error ? err.message : "Something went wrong. Please try again.";
       setError(errorMessage);
     } finally {
       setSubmitting(false);

@@ -5,7 +5,6 @@ import Link from "next/link";
 import Image from "next/image";
 import HeroBanner from "../frontend/ui/home/hero";
 import {
-  ArrowLeftIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
 } from "@heroicons/react/24/outline";
@@ -20,7 +19,7 @@ type Seller = {
 export default function SellersPage() {
   const [sellers, setSellers] = useState<Seller[]>([]);
   const [page, setPage] = useState(1);
-  const [limit] = useState(6); // sellers per page
+  const [limit] = useState(6);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -70,13 +69,13 @@ export default function SellersPage() {
                 return (
                   <Link key={seller._id} href={`/seller/${slug}`}>
                     <div className="bg-white shadow-sm p-4 rounded-lg hover:shadow-md transition text-center">
-                      <div className="mx-auto rounded-xl border-1 border-gray-300 overflow-hidden flex items-center justify-center">
+                      <div className="mx-auto w-[200px] h-[200px] border border-gray-300 overflow-hidden">
                         <Image
                           src={avatarUrl}
                           alt={seller.name}
                           width={200}
-                          height={288}
-                          className="object-cover rounded-full"
+                          height={200}
+                          className="object-cover"
                         />
                       </div>
                       <h3 className="mt-4 font-bold text-gray-900">
@@ -92,7 +91,6 @@ export default function SellersPage() {
         </div>
       </section>
 
-      {/* Pagination Controls */}
       <div className="flex justify-center items-center gap-4 my-10">
         <button
           onClick={() => setPage((p) => Math.max(p - 1, 1))}
